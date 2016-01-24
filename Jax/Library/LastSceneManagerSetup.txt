@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/4PointLeg1D.unity
+- path: Assets/Scenes/1D Spring.unity
   isLoaded: 1
   isActive: 1
