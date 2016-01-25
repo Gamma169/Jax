@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ExtendSpring : MonoBehaviour {
+public class SpringControl : MonoBehaviour {
 
 	public float regSpringLength = 3f;
 	public float extSpringLength = 5f;
@@ -12,7 +12,7 @@ public class ExtendSpring : MonoBehaviour {
 
 	private bool jiggle;
 	private Rigidbody2D rb;
-	private float startSpringLength;
+	//private float startSpringLength;
 	private Vector3 startSpringSpriteSize;
 	private float startDistance;
 
@@ -22,7 +22,7 @@ public class ExtendSpring : MonoBehaviour {
 		jiggle = false;
 		spring = GetComponent<SpringJoint2D> ();
 		rb = GetComponent<Rigidbody2D> ();
-		startSpringLength = spring.distance;
+		//startSpringLength = spring.distance;
 		startSpringSpriteSize = springSpriteTrans.localScale;
 		startDistance = Vector3.Distance(footTransform.position, transform.position);
 	}
@@ -30,18 +30,6 @@ public class ExtendSpring : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
-		if (Input.GetKey ("space")) {
-			if (!jiggle) {
-				jiggle = true;
-				rb.AddForce (transform.up * 0.001f);
-			}
-			spring.distance = extSpringLength;
-		} 
-		else {
-			jiggle = false;
-			spring.distance = regSpringLength;
-		}
 			
 		float springXPos = (this.transform.position.x + footTransform.position.x) / 2;
 		float springYPos = (this.transform.position.y + footTransform.position.y) / 2;
@@ -49,11 +37,32 @@ public class ExtendSpring : MonoBehaviour {
 		springSpriteTrans.position = new Vector3 (springXPos, springYPos, springZPos);
 
 
-
-
 		float dist = Vector3.Distance(footTransform.position, transform.position);
+		float scale = dist / startDistance;
+		springSpriteTrans.localScale = new Vector3 (startSpringSpriteSize.x * (1/scale), startSpringSpriteSize.y * scale, startSpringSpriteSize.z);
+
+		float angle = Mathf.Atan2 (this.transform.position.x - footTransform.position.x, this.transform.position.y - footTransform.position.y) * 180 / Mathf.PI;
+		springSpriteTrans.rotation = Quaternion.Euler(new Vector3 (0, 0, -angle));
 
 
+		if (GlobalVariables.pControl) {
+			if (Input.GetKey ("space")) {
+				if (!jiggle) {
+					jiggle = true;
+					rb.AddForce (transform.up * 0.001f);
+				}
+				spring.distance = extSpringLength;
+			} 
+			else {
+				jiggle = false;
+				spring.distance = regSpringLength;
+			}
+		}
+
+
+		else {
+			AutoControl ();
+		}
 
 		/*
 		if (Input.GetKey ("space") && spring.distance <= extSpringLength)
@@ -61,5 +70,11 @@ public class ExtendSpring : MonoBehaviour {
 		if (!Input.GetKey ("space") && spring.distance >= regSpringLength )
 			spring.distance = spring.distance - .05f;
 		*/
+	}
+
+
+	private void AutoControl() {
+	
+	
 	}
 }

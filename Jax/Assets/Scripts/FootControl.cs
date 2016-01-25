@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpringSquish : MonoBehaviour {
+public class FootControl : MonoBehaviour {
+
+	public Transform footTransform;
+	public Rigidbody2D footRB;
 
 	// Use this for initialization
 	void Start () {
