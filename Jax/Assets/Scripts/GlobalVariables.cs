@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GlobalVariables : MonoBehaviour {
 
@@ -16,5 +17,16 @@ public class GlobalVariables : MonoBehaviour {
 		if (Input.GetKeyDown ("x"))
 			pControl = !pControl;
 			
+
+		if (Input.GetKeyDown ("r"))
+			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+		
+
+		if (Input.GetKeyDown ("1"))
+			SceneManager.LoadScene (0);
+
+		if (Input.GetKeyDown ("2"))
+			SceneManager.LoadScene (1);
+
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FootControl : MonoBehaviour {
 
-	public float power = .1f;
+	public float power = 5f;
 
 	public Transform footTransform;
 	public Rigidbody2D footRB;
@@ -19,22 +19,18 @@ public class FootControl : MonoBehaviour {
 
 		// This line should be in RotateFoot when I'm done debugging it
 			
-		alpha = Mathf.Atan ((this.transform.position.x - footTransform.position.x) / (this.transform.position.y - footTransform.position.y) ) ;
-
-		if (this.transform.position.y - footTransform.position.y >= 0)
-			alpha = -alpha;
+		alpha = Mathf.Atan ((footTransform.position.x - this.transform.position.x) / (footTransform.position.y - this.transform.position.y ) ) ;
 
 		print (alpha * 180 / Mathf.PI);
-
 
 		if (GlobalVariables.pControl) {
 
 
 			if (Input.GetKey("a")) {
-				RotateFoot (true);
+				RotateFoot (false);
 			}
 			if (Input.GetKey("d")) {
-				RotateFoot (false);
+				RotateFoot (true);
 			}
 
 
@@ -53,12 +49,40 @@ public class FootControl : MonoBehaviour {
 
 	}
 
-	public void RotateFoot(bool left) {
+	/*==============  I know that this method could be written more simply, but this way it follows my equations in my notebook and derivations for power    ========*/
+	public void RotateFoot(bool clockwise) {
+		float poweradded = power;
+		if (clockwise)
+			poweradded = -poweradded;
 
-		if (left)
-			footRB.AddForce (new Vector2(Mathf.Cos(-alpha) * power, Mathf.Sin(-alpha) * power));
+		float powerX;
+		float powerY;
+
+		if (footAbove ())
+			powerX = poweradded;
 		else
-			footRB.AddForce (new Vector2(Mathf.Cos(-alpha) * -power, Mathf.Sin(-alpha) * -power));
-	
+			powerX = -poweradded;
+
+		if (footToTheRight ())
+			powerY = -poweradded;
+		else
+			powerY = poweradded;
+		
+
+		footRB.AddForce (new Vector2(powerX * Mathf.Cos(alpha), powerY * Mathf.Sin(alpha)));
+
+	}
+
+	public bool footAbove() {
+		if (footTransform.position.y - this.transform.position.y > 0)
+			return true;
+		else
+			return false;
+	}
+	public bool footToTheRight() {
+		if (footTransform.position.x - this.transform.position.x > 0)
+			return true;
+		else
+			return false;
 	}
 }
