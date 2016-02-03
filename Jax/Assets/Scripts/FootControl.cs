@@ -11,7 +11,10 @@ public class FootControl : MonoBehaviour {
 	public float alpha;
 	// Use this for initialization
 	void Start () {
-	
+		/*
+		footTransform = this.transform;
+		footRB = GetComponent<Rigidbody2D> ();
+		*/
 	}
 	
 	// Update is called once per frame
@@ -21,16 +24,16 @@ public class FootControl : MonoBehaviour {
 			
 		alpha = Mathf.Atan ((footTransform.position.x - this.transform.position.x) / (footTransform.position.y - this.transform.position.y ) ) ;
 
-		print (alpha * 180 / Mathf.PI);
+		//print (alpha * 180 / Mathf.PI);
 
 		if (GlobalVariables.pControl) {
 
 
 			if (Input.GetKey("a")) {
-				RotateFoot (false);
+				RotateFoot (true);
 			}
 			if (Input.GetKey("d")) {
-				RotateFoot (true);
+				RotateFoot (false);
 			}
 
 
@@ -48,29 +51,16 @@ public class FootControl : MonoBehaviour {
 
 
 	}
-
-	/*==============  I know that this method could be written more simply, but this way it follows my equations in my notebook and derivations for power    ========*/
-	public void RotateFoot(bool clockwise) {
-		float poweradded = power;
-		if (clockwise)
-			poweradded = -poweradded;
-
-		float powerX;
-		float powerY;
-
-		if (footAbove ())
-			powerX = poweradded;
-		else
-			powerX = -poweradded;
-
-		if (footToTheRight ())
-			powerY = -poweradded;
-		else
-			powerY = poweradded;
 		
+	public void RotateFoot(bool clockwise) {
+		float powerAdded = power;
+		if (clockwise)
+			powerAdded = -powerAdded;
 
-		footRB.AddForce (new Vector2(powerX * Mathf.Cos(alpha), powerY * Mathf.Sin(alpha)));
-
+		if (!footAbove ())
+			footRB.AddForce (new Vector2 (-powerAdded * Mathf.Cos (alpha), powerAdded * Mathf.Sin (alpha)));
+		else
+			footRB.AddForce (new Vector2 (powerAdded * Mathf.Cos (alpha), -powerAdded * Mathf.Sin (alpha)));
 	}
 
 	public bool footAbove() {

@@ -10,6 +10,21 @@ public class GlobalVariables : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		pControl = true;
+
+		/*
+		print (Mathf.Cos (0));
+		print (Mathf.Cos (-Mathf.PI));
+		print (Mathf.Cos (-Mathf.PI * 3 / 4));
+		print (Mathf.Cos (-Mathf.PI / 2));
+		print (Mathf.Cos (-Mathf.PI / 4));
+	
+		print ("Positive");
+		print (Mathf.Cos (0));
+		print (Mathf.Cos (Mathf.PI / 4));
+		print (Mathf.Cos (Mathf.PI / 2));
+		print (Mathf.Cos (Mathf.PI * 3 / 4));
+		print (Mathf.Cos (Mathf.PI));
+		*/
 	}
 	
 	// Update is called once per frame
