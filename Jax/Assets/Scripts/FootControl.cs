@@ -30,10 +30,10 @@ public class FootControl : MonoBehaviour {
 
 
 			if (Input.GetKey("a")) {
-				RotateFoot (true);
+				RotateFoot (!GlobalVariables.invertLegControl);
 			}
 			if (Input.GetKey("d")) {
-				RotateFoot (false);
+				RotateFoot (GlobalVariables.invertLegControl);
 			}
 
 

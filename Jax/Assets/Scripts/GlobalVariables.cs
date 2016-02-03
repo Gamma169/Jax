@@ -6,10 +6,13 @@ public class GlobalVariables : MonoBehaviour {
 
 	public static bool pControl;
 
+	public static bool invertLegControl;
+
 
 	// Use this for initialization
 	void Start () {
 		pControl = true;
+		invertLegControl = false;
 
 		/*
 		print (Mathf.Cos (0));
@@ -32,6 +35,8 @@ public class GlobalVariables : MonoBehaviour {
 		if (Input.GetKeyDown ("x"))
 			pControl = !pControl;
 			
+		if (Input.GetKeyDown ("i"))
+			invertLegControl = !invertLegControl;
 
 		if (Input.GetKeyDown ("r"))
 			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
