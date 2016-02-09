@@ -3,8 +3,11 @@ using System.Collections;
 
 public class SpringControl : MonoBehaviour {
 
-	public float regSpringLength = 3f;
-	public float extSpringLength = 5f;
+	public static float springFreq;
+	public static float springDamp;
+
+	public float regSpringLength;
+	public float extSpringLength;
 
 	public SpringJoint2D spring;
 	public Transform footTransform;
@@ -25,12 +28,30 @@ public class SpringControl : MonoBehaviour {
 		//startSpringLength = spring.distance;
 		startSpringSpriteSize = springSpriteTrans.localScale;
 		startDistance = Vector3.Distance(footTransform.position, transform.position);
+
+		springFreq = spring.frequency;
+		springDamp = spring.dampingRatio;
 	}
 
 
 	// Update is called once per frame
 	void Update () {
 			
+		if (Input.GetKeyDown ("p") && springFreq < 15f)
+			springFreq += 0.5f;
+		if (Input.GetKeyDown ("o") && springFreq > 2f)
+			springFreq -= 0.5f;
+
+		if (Input.GetKeyDown ("l") && springDamp < 1f)
+			springDamp += 0.1f;
+		if (Input.GetKeyDown ("k") && springDamp > 0f)
+			springDamp -= 0.1f;
+
+		spring.frequency = springFreq;
+		spring.dampingRatio = springDamp;
+		
+
+
 		float springXPos = (this.transform.position.x + footTransform.position.x) / 2;
 		float springYPos = (this.transform.position.y + footTransform.position.y) / 2;
 		float springZPos = (this.transform.position.z + footTransform.position.z) / 2;
