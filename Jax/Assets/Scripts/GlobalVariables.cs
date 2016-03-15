@@ -4,13 +4,28 @@ using UnityEngine.SceneManagement;
 
 public class GlobalVariables : MonoBehaviour {
 
+	public static Vector3[] playerPositions;
+
 	public static bool pControl;
 
 	public static bool invertLegControl;
 
+	private GameObject[] players;
 
 	// Use this for initialization
 	void Start () {
+
+		// Get positions of all players in scene
+		players = GameObject.FindGameObjectsWithTag ("Player");
+		if (players.Length >= 1) {
+			playerPositions = new Vector3[players.Length];
+			for (int i = 0; i < playerPositions.Length; i++) {
+				playerPositions [i] = players [i].transform.position;
+			}
+		}
+		else {
+			print("Error: Player not found in scene");
+		}
 		pControl = true;
 		invertLegControl = false;
 
@@ -48,5 +63,12 @@ public class GlobalVariables : MonoBehaviour {
 		if (Input.GetKeyDown ("2"))
 			SceneManager.LoadScene (1);
 
+	
+	
+		for (int i = 0; i < players.Length; i++) {
+			playerPositions [i] = players [i].transform.position;
+		}
+	
+	
 	}
 }
