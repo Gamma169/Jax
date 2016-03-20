@@ -9,6 +9,8 @@ public class FootControl : MonoBehaviour {
 	public Rigidbody2D footRB;
 
 	public float alpha;
+
+	public SpringControl SC;
 	// Use this for initialization
 	void Start () {
 		/*
@@ -16,9 +18,8 @@ public class FootControl : MonoBehaviour {
 		footRB = GetComponent<Rigidbody2D> ();
 		*/
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void FixedUpdate () {
 
 		// This line should be in RotateFoot when I'm done debugging it
 			
@@ -26,8 +27,7 @@ public class FootControl : MonoBehaviour {
 
 		//print (alpha * 180 / Mathf.PI);
 
-		if (GlobalVariables.pControl) {
-
+		if (GlobalVariables.pControl && !SC.retracted) {
 
 			if (Input.GetKey("a")) {
 				RotateFoot (!GlobalVariables.invertLegControl);
@@ -35,14 +35,15 @@ public class FootControl : MonoBehaviour {
 			if (Input.GetKey("d")) {
 				RotateFoot (GlobalVariables.invertLegControl);
 			}
-
-
-		
-		
+				
 		} 
 		else {
 			AutoControl ();
 			//print (Mathf.Cos (-45));
+		}
+
+		if (Input.GetKeyDown("space")) {
+			footRB.AddForce(Vector2.down * 5, ForceMode2D.Impulse);
 		}
 
 	}

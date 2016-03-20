@@ -47,23 +47,9 @@ public class GlobalVariables : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown ("x"))
-			pControl = !pControl;
-			
-		if (Input.GetKeyDown ("i"))
-			invertLegControl = !invertLegControl;
 
 		if (Input.GetKeyDown ("r"))
 			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
-		
-
-		if (Input.GetKeyDown ("1"))
-			SceneManager.LoadScene (0);
-
-		if (Input.GetKeyDown ("2"))
-			SceneManager.LoadScene (1);
-
-	
 	
 		for (int i = 0; i < players.Length; i++) {
 			playerPositions [i] = players [i].transform.position;

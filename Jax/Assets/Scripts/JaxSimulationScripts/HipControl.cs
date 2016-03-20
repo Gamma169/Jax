@@ -23,6 +23,5 @@ public class HipControl : MonoBehaviour {
 
 		RB2D.mass = hipMass;
 			
-
 	}
 }

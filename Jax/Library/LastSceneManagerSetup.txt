@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/SliderLegDesign.unity
+- path: Assets/Scenes/SingleSpringPlayground.unity
   isLoaded: 1
   isActive: 1
