@@ -17,21 +17,23 @@ public class SpringControl : MonoBehaviour {
 	public bool retracted;
 
 	private Rigidbody2D rb;
-	private FixedJoint2D fj;
+	//private FixedJoint2D fj;
+	private SliderJoint2D sj;
 	//private float startSpringLength;
 	private Vector3 startSpringSpriteSize;
 	private float startDistance;
 	private bool exSpringLockout;
 
+
 	// Use this for initialization
 	void Start () {
 		spring = GetComponent<SpringJoint2D>();
 		rb = GetComponent<Rigidbody2D>();
-		fj = GetComponent<FixedJoint2D>();
+		//fj = GetComponent<FixedJoint2D>();
+		sj = GetComponent<SliderJoint2D>();
 		//startSpringLength = spring.distance;
 		startSpringSpriteSize = springSprite.transform.localScale;
 		startDistance = Vector3.Distance(footTransform.position, transform.position);
-
 
 	}
 
@@ -59,31 +61,30 @@ public class SpringControl : MonoBehaviour {
 		
 	void FixedUpdate () {
 
+		if (retracted) {
+			if (spring.distance > 0.01f)
+				ChangeSpringLength(0, 25);	
+			else {
+				spring.enabled = false;
+				sj.enabled = true;
+				//fj.enabled = true;
+			}
+		}
 		// This section actually does a little magic based on how I set up the "ExtendSpring" and "ContractSpring" functions
 		// You don't have to change the length when extending because it's already changed in checking when space is pressed
-		if (retracted)
-			ChangeSpringLength(0, 25);
 		else {
 			if (spring.distance < regSpringLength)
 				exSpringLockout = true;
 			else
 				exSpringLockout = false;
 			spring.enabled = true;
-			fj.enabled = false;
-		}
-		if (spring.distance <= 0.01f) {
-			spring.enabled = false;
-			fj.enabled = true;
+			sj.enabled = false;
+			//fj.enabled = false;
 		}
 			
 		if (GlobalVariables.pControl) {
 
-			if (Input.GetKeyDown("space"))
-				Jiggle();
-			if (Input.GetKeyUp("space"))
-				Jiggle();
-			
-			if (Input.GetKey ("space") && !exSpringLockout) 
+			if (Input.GetKey ("space") && !exSpringLockout)
 				ExtendSpring();
 			else 
 				ContractSpring();
@@ -91,7 +92,6 @@ public class SpringControl : MonoBehaviour {
 		else {
 			AutoControl ();
 		}
-		print(exSpringLockout);
 	}
 
 
@@ -101,19 +101,24 @@ public class SpringControl : MonoBehaviour {
 	}
 
 	public void ExtendSpring() {
-		if (retracted)
-			ChangeFixedJointLength(3, 100);
+		if (retracted) {
+			ChangeSliderJointLength(3, 5);
+			rb.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
+			//ChangeFixedJointLength(4, 100);
+		}
 		else
 			ChangeSpringLength(extSpringLength, 0);
 	}
 
 	public void ContractSpring() {
 		if (retracted)
-			ChangeFixedJointLength(1, 25);
+			ChangeSliderJointLength(0, 5);
+			//ChangeFixedJointLength(1, 100);
 		else
 			ChangeSpringLength(regSpringLength, 50);
 	}
 
+	//Only need this to "wake up" the rigidbody2D, but I changed it to "Never Sleep" so it should be good.
 	private void Jiggle() {
 		rb.AddForce (transform.up * 0.001f);
 	}
@@ -144,12 +149,37 @@ public class SpringControl : MonoBehaviour {
 		}
 	}
 
-
+	/*** This function changes the Fixed Joint Length in a downwards Y direction relative to the body;  Note that when atSpeed is set to 0, the change is instant    ***/
+	/*
 	public void ChangeFixedJointLength(float toLength, float atSpeed) {
-		if (atSpeed == 0) {
-		}
+		if (atSpeed == 0) 
+			fj.connectedAnchor = new Vector2(fj.connectedAnchor.x, toLength);	
 		else {
+			if (toLength >= fj.connectedAnchor.y) {
+				fj.connectedAnchor = new Vector2(fj.connectedAnchor.x, fj.connectedAnchor.y + (0.01f * atSpeed));
+				//These checks are necessary for the above reasons
+				if (fj.connectedAnchor.y > toLength)
+					fj.connectedAnchor = new Vector2 (fj.connectedAnchor.x, toLength);
+			}
+			else {
+				fj.connectedAnchor = new Vector2(fj.connectedAnchor.x, fj.connectedAnchor.y - (0.01f * atSpeed));
+				//These checks are necessary for the above reasons
+				if (fj.connectedAnchor.y < toLength)
+					fj.connectedAnchor = new Vector2 (fj.connectedAnchor.x, toLength);
+			}
 		}
+	}
+	*/
+
+	public void ChangeSliderJointLength(float toLength, float atSpeed) {
+		/*sj.useMotor = true;
+		JointMotor2D mot = sj.motor;
+		if (sj.jointTranslation <= toLength)
+			mot.motorSpeed = atSpeed;
+		else
+			mot.motorSpeed = -atSpeed;
+			*/
+		
 	}
 
 }

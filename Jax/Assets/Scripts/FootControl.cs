@@ -5,8 +5,11 @@ public class FootControl : MonoBehaviour {
 
 	public float power = 5f;
 
+	public bool footOnGround;
+
 	public Transform footTransform;
 	public Rigidbody2D footRB;
+	public Collider2D footCol;
 
 	public float alpha;
 
@@ -76,4 +79,12 @@ public class FootControl : MonoBehaviour {
 		else
 			return false;
 	}
+
+
+	/*
+	void OnTriggerStay2D(Collider2D col) {
+		if (col.gameObject.tag == "Ground")
+			print("On Ground");
+	}
+	*/
 }
