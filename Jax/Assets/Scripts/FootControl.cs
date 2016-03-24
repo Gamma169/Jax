@@ -44,10 +44,10 @@ public class FootControl : MonoBehaviour {
 			AutoControl ();
 			//print (Mathf.Cos (-45));
 		}
-
+		/*
 		if (Input.GetKeyDown("space")) {
 			footRB.AddForce(Vector2.down * 5, ForceMode2D.Impulse);
-		}
+		}*/
 
 	}
 

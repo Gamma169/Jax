@@ -7,8 +7,10 @@ public class SpringControl : MonoBehaviour {
 
 	public float regSpringLength;
 	public float extSpringLength;
-	public float regDampRatio = 0.4f;
-	public float lockoutDampRatio = 0.8f;
+	public float regDampRatio = 0.3f;
+	public float lockoutDampRatio = 0.85f;
+	public float regSpringFreq = 2.9f;
+	public float retractSpringFreq = 14f;
 
 	public SpringJoint2D spring;
 	public Transform footTransform;
@@ -17,20 +19,18 @@ public class SpringControl : MonoBehaviour {
 	public bool retracted;
 
 	private Rigidbody2D rb;
-	//private FixedJoint2D fj;
-	private SliderJoint2D sj;
+	private FixedJoint2D fj;
+	//private SliderJoint2D sj;
 	//private float startSpringLength;
 	private Vector3 startSpringSpriteSize;
 	private float startDistance;
 	private bool exSpringLockout;
 
-
 	// Use this for initialization
 	void Start () {
 		spring = GetComponent<SpringJoint2D>();
 		rb = GetComponent<Rigidbody2D>();
-		//fj = GetComponent<FixedJoint2D>();
-		sj = GetComponent<SliderJoint2D>();
+		fj = GetComponent<FixedJoint2D>();
 		//startSpringLength = spring.distance;
 		startSpringSpriteSize = springSprite.transform.localScale;
 		startDistance = Vector3.Distance(footTransform.position, transform.position);
@@ -60,15 +60,17 @@ public class SpringControl : MonoBehaviour {
 	}
 		
 	void FixedUpdate () {
-
+		
 		if (retracted) {
 			if (spring.distance > 0.01f)
 				ChangeSpringLength(0, 25);	
 			else {
+				
+				spring.frequency = retractSpringFreq;
 				spring.enabled = false;
-				sj.enabled = true;
-				//fj.enabled = true;
+				fj.enabled = true;
 			}
+
 		}
 		// This section actually does a little magic based on how I set up the "ExtendSpring" and "ContractSpring" functions
 		// You don't have to change the length when extending because it's already changed in checking when space is pressed
@@ -77,14 +79,14 @@ public class SpringControl : MonoBehaviour {
 				exSpringLockout = true;
 			else
 				exSpringLockout = false;
+			spring.frequency = regSpringFreq;
 			spring.enabled = true;
-			sj.enabled = false;
-			//fj.enabled = false;
+			fj.enabled = false;
 		}
 			
 		if (GlobalVariables.pControl) {
 
-			if (Input.GetKey ("space") && !exSpringLockout)
+			if (Input.GetKey("space") && !exSpringLockout) 
 				ExtendSpring();
 			else 
 				ContractSpring();
@@ -102,18 +104,29 @@ public class SpringControl : MonoBehaviour {
 
 	public void ExtendSpring() {
 		if (retracted) {
-			ChangeSliderJointLength(3, 5);
-			rb.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
-			//ChangeFixedJointLength(4, 100);
+			spring.enabled = true;
+			fj.enabled = false;
+			spring.frequency = retractSpringFreq;
+			ChangeSpringLength(.7f, 0);
 		}
 		else
 			ChangeSpringLength(extSpringLength, 0);
 	}
 
 	public void ContractSpring() {
-		if (retracted)
-			ChangeSliderJointLength(0, 5);
-			//ChangeFixedJointLength(1, 100);
+		if (retracted) {
+			spring.frequency = regSpringFreq;
+
+			if (spring.enabled) {
+				ChangeSpringLength(0, 50);
+				if (spring.distance == 0) {
+					spring.enabled = false;
+					fj.enabled = true;
+				}
+			}
+			else
+				ChangeFixedJointLength(1, 100);
+		}
 		else
 			ChangeSpringLength(regSpringLength, 50);
 	}
@@ -130,10 +143,12 @@ public class SpringControl : MonoBehaviour {
 		else {
 			if (toLength >= spring.distance) {
 				// This lockout happens so that you don't shoot up much higher than possible when first entering the extended spring
-				if (exSpringLockout)
+				if (exSpringLockout) {
 					spring.dampingRatio = lockoutDampRatio;
-				else
+				}
+				else {
 					spring.dampingRatio = regDampRatio;
+				}
 
 				spring.distance += (0.01f * atSpeed);
 				//This line is necessary here in this place to make sure we don't fluctuate.  I could possiby give a range to where it should stop, but that might not end up in the right spot
@@ -146,11 +161,10 @@ public class SpringControl : MonoBehaviour {
 				if (spring.distance < toLength)
 					spring.distance = toLength;
 			}
-		}
+		}	
 	}
 
 	/*** This function changes the Fixed Joint Length in a downwards Y direction relative to the body;  Note that when atSpeed is set to 0, the change is instant    ***/
-	/*
 	public void ChangeFixedJointLength(float toLength, float atSpeed) {
 		if (atSpeed == 0) 
 			fj.connectedAnchor = new Vector2(fj.connectedAnchor.x, toLength);	
@@ -169,17 +183,6 @@ public class SpringControl : MonoBehaviour {
 			}
 		}
 	}
-	*/
-
-	public void ChangeSliderJointLength(float toLength, float atSpeed) {
-		/*sj.useMotor = true;
-		JointMotor2D mot = sj.motor;
-		if (sj.jointTranslation <= toLength)
-			mot.motorSpeed = atSpeed;
-		else
-			mot.motorSpeed = -atSpeed;
-			*/
 		
-	}
 
 }
