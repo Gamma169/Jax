@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class GlobalVariables : MonoBehaviour {
+	public const string BOUNDRY_LAYER = "Boundries";
+
 
 	public static Vector3[] playerPositions;
 

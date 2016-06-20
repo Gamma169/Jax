@@ -10,7 +10,7 @@ public class SpringControl : MonoBehaviour {
 	public float regDampRatio = 0.3f;
 	public float lockoutDampRatio = 0.85f;
 	public float regSpringFreq = 2.9f;
-	public float retractSpringFreq = 14f;
+	public float retractSpringFreq = 17f;
 
 	public SpringJoint2D spring;
 	public Transform footTransform;
@@ -44,6 +44,8 @@ public class SpringControl : MonoBehaviour {
 
 		springSprite.SetActive(!retracted);	
 
+
+		//This all deals with the spring's sprite location, rotation and scale
 		if (springSprite.activeSelf) {
 			float springXPos = (this.transform.position.x + footTransform.position.x) / 2;
 			float springYPos = (this.transform.position.y + footTransform.position.y) / 2;
