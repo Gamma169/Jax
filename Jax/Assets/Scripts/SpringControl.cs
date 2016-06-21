@@ -19,8 +19,10 @@ public class SpringControl : MonoBehaviour {
 	public GameObject springSprite;
 
 	public bool retracted;
+	public bool clamped;
 
 	public float footDist;
+	public float clampedCheckDist;
 
 	private Rigidbody2D footrb;
 	private Rigidbody2D rb;
@@ -30,6 +32,8 @@ public class SpringControl : MonoBehaviour {
 	//private float startSpringLength;
 	private Vector3 startSpringSpriteSize;
 	private float startDistance;
+	//private bool onGround;
+
 	private bool exSpringLockout = false;
 
 	// Use this for initialization
@@ -54,6 +58,15 @@ public class SpringControl : MonoBehaviour {
 
 		footDist = Vector3.Distance(footTransform.position, transform.position);
 
+		//I'm checking to see if I'm clamped by comparing the distance between the foot the previous frame and not
+		//There are also a bunch of other requirements for being clamped, and so if all of them are true, then it's clamped
+		//NOTE: There's some more conditions for clamping necessary because I'm getting a few frames where it says it's clamped when it's not when I retract the leg -- I don't think this will affect anything, but it might -- I'll see if I have to come back to it.
+		clamped = (retracted && clampedCheckDist - footDist < .01f && footDist - spring.distance > .25f );
+		clampedCheckDist = footDist;
+
+		print(clamped);
+
+
 		//This all deals with the spring's sprite location, rotation and scale
 		if (springSprite.activeSelf) {
 			float springXPos = (this.transform.position.x + footTransform.position.x) / 2;
@@ -73,7 +86,7 @@ public class SpringControl : MonoBehaviour {
 
 		if (GlobalVariables.pControl) {
 
-			if (Input.GetKey("space")) 
+			if (Input.GetKey("space"))
 				ExtendSpring();
 			else 
 				ContractSpring();
@@ -89,12 +102,17 @@ public class SpringControl : MonoBehaviour {
 	
 	}
 
+	//  I EITHER NEED TO CHANGE THIS OR THE CLAMP FUNCTION
 	public void ContractSpring() {
 		if (retracted) {
 			
-			if (spring.enabled) {
-				ChangeSpringLength(0, 0);
-				if (footDist > .6) {
+			ChangeSpringLength(0, 0);
+			if (clamped) {
+				footrb.drag = regDrag;
+				spring.frequency = retractSpringFreq;
+			}
+			else {
+				if (footDist > .7) {
 					footrb.drag = retractDrag;
 				}
 				else {
@@ -104,6 +122,18 @@ public class SpringControl : MonoBehaviour {
 					footrb.drag = regDrag;
 				}
 			}
+
+			/*
+			if (footDist > .6) {
+				footrb.drag = retractDrag;
+			}
+			else {
+				spring.frequency = retractSpringFreq;
+				spring.enabled = false;
+				fj.enabled = true;
+				footrb.drag = regDrag;
+			}
+			*/
 		}
 		else {
 			spring.enabled = true;
@@ -190,6 +220,17 @@ public class SpringControl : MonoBehaviour {
 			}
 		}
 	}
-		
+
+	/*
+	void OnCollisionEnter2D(Collision2D other) {
+		if (other.gameObject.tag == "Ground")
+			onGround = true;
+	}
+
+	void OnCollisionExit2D(Collision2D other) {
+		if (other.gameObject.tag == "Ground")
+			onGround = false;
+	}
+	*/	
 
 }
