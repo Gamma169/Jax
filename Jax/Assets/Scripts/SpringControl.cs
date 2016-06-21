@@ -11,25 +11,33 @@ public class SpringControl : MonoBehaviour {
 	public float lockoutDampRatio = 0.85f;
 	public float regSpringFreq = 2.9f;
 	public float retractSpringFreq = 17f;
+	//These are required so that the foot doesn't spin around like crazy if it's in motion and retracted.
+	public float retractDrag = 5f;
+	public float regDrag = 0;
 
-	public SpringJoint2D spring;
 	public Transform footTransform;
 	public GameObject springSprite;
 
 	public bool retracted;
 
+	public float footDist;
+
+	private Rigidbody2D footrb;
 	private Rigidbody2D rb;
+	private SpringJoint2D spring;
 	private FixedJoint2D fj;
 	//private SliderJoint2D sj;
 	//private float startSpringLength;
 	private Vector3 startSpringSpriteSize;
 	private float startDistance;
-	private bool exSpringLockout;
+	private bool exSpringLockout = false;
 
 	// Use this for initialization
 	void Start () {
 		spring = GetComponent<SpringJoint2D>();
-		rb = GetComponent<Rigidbody2D>();
+		Rigidbody2D[] arr = GetComponentsInChildren<Rigidbody2D>();
+		rb = arr[0];
+		footrb = arr[1];
 		fj = GetComponent<FixedJoint2D>();
 		//startSpringLength = spring.distance;
 		startSpringSpriteSize = springSprite.transform.localScale;
@@ -44,6 +52,7 @@ public class SpringControl : MonoBehaviour {
 
 		springSprite.SetActive(!retracted);	
 
+		footDist = Vector3.Distance(footTransform.position, transform.position);
 
 		//This all deals with the spring's sprite location, rotation and scale
 		if (springSprite.activeSelf) {
@@ -52,8 +61,7 @@ public class SpringControl : MonoBehaviour {
 			float springZPos = (this.transform.position.z + footTransform.position.z) / 2;
 			springSprite.transform.position = new Vector3 (springXPos, springYPos, springZPos);
 
-			float dist = Vector3.Distance(footTransform.position, transform.position);
-			float scale = dist / startDistance;
+			float scale = footDist / startDistance;
 			springSprite.transform.localScale = new Vector3 (startSpringSpriteSize.x * (1/scale), startSpringSpriteSize.y * scale, startSpringSpriteSize.z);
 
 			float angle = Mathf.Atan2 (this.transform.position.x - footTransform.position.x, this.transform.position.y - footTransform.position.y) * 180 / Mathf.PI;
@@ -62,33 +70,10 @@ public class SpringControl : MonoBehaviour {
 	}
 		
 	void FixedUpdate () {
-		
-		if (retracted) {
-			if (spring.distance > 0.01f)
-				ChangeSpringLength(0, 25);	
-			else {
-				
-				spring.frequency = retractSpringFreq;
-				spring.enabled = false;
-				fj.enabled = true;
-			}
 
-		}
-		// This section actually does a little magic based on how I set up the "ExtendSpring" and "ContractSpring" functions
-		// You don't have to change the length when extending because it's already changed in checking when space is pressed
-		else {
-			if (spring.distance < regSpringLength)
-				exSpringLockout = true;
-			else
-				exSpringLockout = false;
-			spring.frequency = regSpringFreq;
-			spring.enabled = true;
-			fj.enabled = false;
-		}
-			
 		if (GlobalVariables.pControl) {
 
-			if (Input.GetKey("space") && !exSpringLockout) 
+			if (Input.GetKey("space")) 
 				ExtendSpring();
 			else 
 				ContractSpring();
@@ -104,34 +89,54 @@ public class SpringControl : MonoBehaviour {
 	
 	}
 
-	public void ExtendSpring() {
-		if (retracted) {
-			spring.enabled = true;
-			fj.enabled = false;
-			spring.frequency = retractSpringFreq;
-			ChangeSpringLength(.7f, 0);
-		}
-		else
-			ChangeSpringLength(extSpringLength, 0);
-	}
-
 	public void ContractSpring() {
 		if (retracted) {
-			spring.frequency = regSpringFreq;
-
+			
 			if (spring.enabled) {
-				ChangeSpringLength(0, 50);
-				if (spring.distance == 0) {
+				ChangeSpringLength(0, 0);
+				if (footDist > .6) {
+					footrb.drag = retractDrag;
+				}
+				else {
+					spring.frequency = retractSpringFreq;
 					spring.enabled = false;
 					fj.enabled = true;
+					footrb.drag = regDrag;
 				}
 			}
-			else
-				ChangeFixedJointLength(1, 100);
 		}
-		else
+		else {
+			spring.enabled = true;
+			fj.enabled = false;
+			spring.frequency = regSpringFreq;
 			ChangeSpringLength(regSpringLength, 50);
+			footrb.drag = regDrag;
+		}
+
 	}
+
+	public void ExtendSpring() {
+		if (retracted) {
+			ChangeSpringLength(.7f, 0);
+			if (footDist > .8f) {
+				footrb.drag = retractDrag;
+			}
+			else {
+				spring.frequency = retractSpringFreq;
+				footrb.drag = regDrag;
+				spring.enabled = true;
+				fj.enabled = false;
+			}
+		}
+		else {
+			spring.frequency = regSpringFreq;
+			spring.enabled = true;
+			fj.enabled = false;
+			ChangeSpringLength(extSpringLength, 50);
+			footrb.drag = regDrag;
+		}
+	}
+		
 
 	//Only need this to "wake up" the rigidbody2D, but I changed it to "Never Sleep" so it should be good.
 	private void Jiggle() {

@@ -71,8 +71,7 @@ public class FootControl : MonoBehaviour {
 	public void RotateFoot(bool clockwise) {
 		float footRotatePowerAdded = footRotatePower;
 		float bodyRotatePowerAdded = bodyRotatePower;
-		print("FRP: " + footRotatePower);
-		print("FRPA: " + footRotatePowerAdded);
+		
 		if (clockwise) {
 			footRotatePowerAdded = -footRotatePowerAdded;
 			bodyRotatePowerAdded = -bodyRotatePowerAdded;
@@ -86,7 +85,7 @@ public class FootControl : MonoBehaviour {
 		//  This is where I check if the foot is touching another object.  
 		//  I need to figure out a better way to do this.
 		//  Ideally, we only want it to touch the boundries layer
-		if (footRB.IsTouchingLayers (Physics2D.AllLayers)) {
+		if (footRB.IsTouchingLayers(Physics2D.AllLayers)) {
 			if (footAbove ())
 				bodyRB.AddForce (new Vector2 (-bodyRotatePowerAdded * Mathf.Cos (alpha), bodyRotatePowerAdded * Mathf.Sin (alpha)));
 			else
