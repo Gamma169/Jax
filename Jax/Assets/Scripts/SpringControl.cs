@@ -21,8 +21,8 @@ public class SpringControl : MonoBehaviour {
 	public bool retracted;
 	public bool clamped;
 
-	public float footDist;
-	public float clampedCheckDist;
+	private float footDist;
+	private float clampedCheckDist;
 
 	private Rigidbody2D footrb;
 	private Rigidbody2D rb;
@@ -56,16 +56,7 @@ public class SpringControl : MonoBehaviour {
 
 		springSprite.SetActive(!retracted);	
 
-		footDist = Vector3.Distance(footTransform.position, transform.position);
-
-		//I'm checking to see if I'm clamped by comparing the distance between the foot the previous frame and not
-		//There are also a bunch of other requirements for being clamped, and so if all of them are true, then it's clamped
-		//NOTE: There's some more conditions for clamping necessary because I'm getting a few frames where it says it's clamped when it's not when I retract the leg -- I don't think this will affect anything, but it might -- I'll see if I have to come back to it.
-		clamped = (retracted && clampedCheckDist - footDist < .01f && footDist - spring.distance > .25f );
-		clampedCheckDist = footDist;
-
 		print(clamped);
-
 
 		//This all deals with the spring's sprite location, rotation and scale
 		if (springSprite.activeSelf) {
@@ -83,6 +74,22 @@ public class SpringControl : MonoBehaviour {
 	}
 		
 	void FixedUpdate () {
+
+		//I'm checking to see if I'm clamped by comparing the distance between the foot the previous frame and not
+		//There are also a bunch of other requirements for being clamped, and so if all of them are true, then it's clamped
+		//Instead of assigning clamped straight, I did it like this because of the movement requirement.  I eventually want to be clamped on moving platforms, and don't want it to register unclamped because of the movement
+		footDist = Vector3.Distance(footTransform.position, transform.position);
+		if (retracted && 																				//Must be retracted to be clamped
+			clampedCheckDist - footDist < .01f && 														//The foot needs to not be moving in towards the body anymore
+			footDist - spring.distance > .25f && 														//The distance between the foot and body needs to be greater than what the spring wants to set it at (meaning there's something between the foot and the body stopping it from getting closer)
+			Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2f) + Mathf.Pow(rb.velocity.y, 2f)) < .05f &&			//The body needs not to be moving too fast
+			Mathf.Sqrt(Mathf.Pow(footrb.velocity.x, 2f) + Mathf.Pow(footrb.velocity.y, 2f)) <.05f)		//The foot needs not to be moving (too fast)
+			clamped = true;
+		if (!retracted || footDist - spring.distance < .25f || clampedCheckDist - footDist > .01f)
+			clamped = false;
+
+		clampedCheckDist = footDist;
+
 
 		if (GlobalVariables.pControl) {
 
@@ -102,43 +109,31 @@ public class SpringControl : MonoBehaviour {
 	
 	}
 
-	//  I EITHER NEED TO CHANGE THIS OR THE CLAMP FUNCTION
+	//  I EITHER NEED TO CHANGE THIS OR THE CLAMP DETERMINATION
 	public void ContractSpring() {
 		if (retracted) {
 			
 			ChangeSpringLength(0, 0);
 			if (clamped) {
 				footrb.drag = regDrag;
-				spring.frequency = retractSpringFreq;
+				ChangeSpringFrequency(retractSpringFreq, 30f);
 			}
 			else {
 				if (footDist > .7) {
 					footrb.drag = retractDrag;
 				}
 				else {
-					spring.frequency = retractSpringFreq;
+					ChangeSpringFrequency(retractSpringFreq, 100f);
 					spring.enabled = false;
 					fj.enabled = true;
 					footrb.drag = regDrag;
 				}
 			}
-
-			/*
-			if (footDist > .6) {
-				footrb.drag = retractDrag;
-			}
-			else {
-				spring.frequency = retractSpringFreq;
-				spring.enabled = false;
-				fj.enabled = true;
-				footrb.drag = regDrag;
-			}
-			*/
 		}
 		else {
 			spring.enabled = true;
 			fj.enabled = false;
-			spring.frequency = regSpringFreq;
+			ChangeSpringFrequency(regSpringFreq, 0);
 			ChangeSpringLength(regSpringLength, 50);
 			footrb.drag = regDrag;
 		}
@@ -148,18 +143,24 @@ public class SpringControl : MonoBehaviour {
 	public void ExtendSpring() {
 		if (retracted) {
 			ChangeSpringLength(.7f, 0);
-			if (footDist > .8f) {
-				footrb.drag = retractDrag;
+			if (clamped) {
+				footrb.drag = regDrag;
+				ChangeSpringFrequency(retractSpringFreq, 30f);
 			}
 			else {
-				spring.frequency = retractSpringFreq;
-				footrb.drag = regDrag;
-				spring.enabled = true;
-				fj.enabled = false;
+				if (footDist > .85f) {
+					footrb.drag = retractDrag;
+				}
+				else {
+					ChangeSpringFrequency(retractSpringFreq, 100f);
+					spring.enabled = true;
+					fj.enabled = false;
+					footrb.drag = regDrag;
+				}
 			}
 		}
 		else {
-			spring.frequency = regSpringFreq;
+			ChangeSpringFrequency(regSpringFreq, 0);
 			spring.enabled = true;
 			fj.enabled = false;
 			ChangeSpringLength(extSpringLength, 50);
@@ -219,6 +220,28 @@ public class SpringControl : MonoBehaviour {
 					fj.connectedAnchor = new Vector2 (fj.connectedAnchor.x, toLength);
 			}
 		}
+	}
+
+
+	/*** This function isn't as necessary as the others, but instead of changing the frequency instantly, I might want to change it gradually so things don't shoot out of control; note that when atSpeed is set to 0, the change is instant    ***/
+	public void ChangeSpringFrequency(float toFreq, float atSpeed) {
+		if (atSpeed == 0)
+			spring.frequency = toFreq;
+		else {
+			if (toFreq > spring.frequency) {
+				spring.frequency += .01f * atSpeed;
+				if (spring.frequency > toFreq)
+					spring.frequency = toFreq;
+			}
+			else if (toFreq < spring.frequency) {
+				spring.frequency -= .01f * atSpeed;
+				if (spring.frequency < toFreq)
+					spring.frequency = toFreq;
+			}
+		
+		}
+	
+	
 	}
 
 	/*
