@@ -19,6 +19,15 @@ public class SpringControl : MonoBehaviour {
 	public GameObject springSprite;
 
 	public bool retracted;
+	private bool justProtracted;
+	private bool justRetracted;
+	private int pLockoutTimer;
+	// To implement super-jump, bring pLockoutStartTime down to about 10 or less
+	private int pLockoutStartTime = 28;
+	private int rLockoutTimer;
+	// To implement float bring this down to 5 or less as well
+	private int rLockoutStartTime = 20;
+
 	public bool clamped;
 
 	private float footDist;
@@ -33,8 +42,6 @@ public class SpringControl : MonoBehaviour {
 	private Vector3 startSpringSpriteSize;
 	private float startDistance;
 	//private bool onGround;
-
-	private bool exSpringLockout = false;
 
 	// Use this for initialization
 	void Start () {
@@ -51,12 +58,20 @@ public class SpringControl : MonoBehaviour {
 
 	void Update() {
 
-		if (Input.GetKeyDown(KeyCode.E)) 
+		// This seems overly-complicated and redundant, but I think all these clauses are necessary.  Maybe I should come back to them to look it over, but so far it works.
+		if (Input.GetKeyDown(KeyCode.E) && !justProtracted && !justRetracted) {
 			retracted = !retracted;
+			if (retracted && !justRetracted) {
+				justRetracted = true;
+				rLockoutTimer = rLockoutStartTime;
+			}
+			if (!retracted && !justProtracted) {
+				justProtracted = true;
+				pLockoutTimer = pLockoutStartTime;
+			}
+		}
 
-		springSprite.SetActive(!retracted);	
-
-		print(clamped);
+		springSprite.SetActive(!retracted && footDist > .5f);	
 
 		//This all deals with the spring's sprite location, rotation and scale
 		if (springSprite.activeSelf) {
@@ -90,13 +105,30 @@ public class SpringControl : MonoBehaviour {
 
 		clampedCheckDist = footDist;
 
+		// Since I'm incrementing something and it's based on time, I NEED to have this in FixedUpdate()
+		// These lines act a lockout function so that I don't super-jump or float. Of course, if I set the start timers to about 0 or so, then they act as if they weren't there
+		if (justProtracted) {
+			pLockoutTimer--;
+			if (pLockoutTimer <= 0)
+				justProtracted = false;
+		}
+		if (justRetracted) {
+			rLockoutTimer--;
+			if (rLockoutTimer <= 0)
+				justRetracted = false;
+		}
+
+		//print(justProtracted);
 
 		if (GlobalVariables.pControl) {
 
-			if (Input.GetKey("space"))
+			// I only extend on the spacebar if I have not just protracted or just retracted otherwise I keep it in the contracted position.
+			if (Input.GetKey("space") && !justProtracted && !justRetracted) {
 				ExtendSpring();
-			else 
+			}
+			else {
 				ContractSpring();
+			}
 		}
 		else {
 			AutoControl ();
@@ -109,13 +141,13 @@ public class SpringControl : MonoBehaviour {
 	
 	}
 
-	//  I EITHER NEED TO CHANGE THIS OR THE CLAMP DETERMINATION
+	//Self-explanitory function.  Contract to 0 or regSpringLength if retracted or protracted and add drag to avoid crazy spinning.  Activate Fixed joint if the foot reaches all the way back to body.
 	public void ContractSpring() {
 		if (retracted) {
-			
 			ChangeSpringLength(0, 0);
 			if (clamped) {
 				footrb.drag = regDrag;
+				//We need to change frequency slowly if clamped because jumping to too high a frequency quickly can add too much velocity to the foot or body causing it to "phase" through obstacles
 				ChangeSpringFrequency(retractSpringFreq, 30f);
 			}
 			else {
@@ -140,6 +172,7 @@ public class SpringControl : MonoBehaviour {
 
 	}
 
+	// See notes for Contract Spring Function
 	public void ExtendSpring() {
 		if (retracted) {
 			ChangeSpringLength(.7f, 0);
@@ -179,21 +212,13 @@ public class SpringControl : MonoBehaviour {
 		if (atSpeed == 0)
 			spring.distance = toLength;
 		else {
-			if (toLength >= spring.distance) {
-				// This lockout happens so that you don't shoot up much higher than possible when first entering the extended spring
-				if (exSpringLockout) {
-					spring.dampingRatio = lockoutDampRatio;
-				}
-				else {
-					spring.dampingRatio = regDampRatio;
-				}
-
+			if (spring.distance < toLength) {
 				spring.distance += (0.01f * atSpeed);
 				//This line is necessary here in this place to make sure we don't fluctuate.  I could possiby give a range to where it should stop, but that might not end up in the right spot
 				if (spring.distance > toLength)
 					spring.distance = toLength;
 			}
-			else {
+			else if (spring.distance > toLength) {
 				spring.distance -= (0.01f * atSpeed);
 				//This is same as the comment above
 				if (spring.distance < toLength)
@@ -229,12 +254,12 @@ public class SpringControl : MonoBehaviour {
 			spring.frequency = toFreq;
 		else {
 			if (toFreq > spring.frequency) {
-				spring.frequency += .01f * atSpeed;
+				spring.frequency += (.01f * atSpeed);
 				if (spring.frequency > toFreq)
 					spring.frequency = toFreq;
 			}
 			else if (toFreq < spring.frequency) {
-				spring.frequency -= .01f * atSpeed;
+				spring.frequency -= (.01f * atSpeed);
 				if (spring.frequency < toFreq)
 					spring.frequency = toFreq;
 			}
