@@ -97,8 +97,11 @@ public class SpringControl : MonoBehaviour {
 		if (retracted && 																				//Must be retracted to be clamped
 			clampedCheckDist - footDist < .01f && 														//The foot needs to not be moving in towards the body anymore
 			footDist - spring.distance > .25f && 														//The distance between the foot and body needs to be greater than what the spring wants to set it at (meaning there's something between the foot and the body stopping it from getting closer)
-			Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2f) + Mathf.Pow(rb.velocity.y, 2f)) < .05f &&			//The body needs not to be moving too fast
-			Mathf.Sqrt(Mathf.Pow(footrb.velocity.x, 2f) + Mathf.Pow(footrb.velocity.y, 2f)) <.05f)		//The foot needs not to be moving (too fast)
+				((Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2f) + Mathf.Pow(rb.velocity.y, 2f)) < .05f &&			//The body needs not to be moving too fast
+				Mathf.Sqrt(Mathf.Pow(footrb.velocity.x, 2f) + Mathf.Pow(footrb.velocity.y, 2f)) <.05f) ||	//The foot needs not to be moving (too fast)
+				(rb.velocity.x - footrb.velocity.x < .1f && rb.velocity.y - footrb.velocity.y < .1f && 		// OR both the foot and body are moving at the same velocity.
+					footDist > .75f))																		// AND the foot distance is far from the body (this is so that at small distances, the foot is close and activates clamp briefly)
+			)
 			clamped = true;
 		if (!retracted || footDist - spring.distance < .25f || clampedCheckDist - footDist > .01f)
 			clamped = false;
@@ -153,6 +156,7 @@ public class SpringControl : MonoBehaviour {
 			else {
 				if (footDist > .7) {
 					footrb.drag = retractDrag;
+					ChangeSpringFrequency(retractSpringFreq, 1f);	//This line may give issues in the future because of increasing the frequency.  Might not be necessary but is good to have.
 				}
 				else {
 					ChangeSpringFrequency(retractSpringFreq, 100f);
@@ -183,6 +187,8 @@ public class SpringControl : MonoBehaviour {
 			else {
 				if (footDist > .85f) {
 					footrb.drag = retractDrag;
+					ChangeSpringFrequency(retractSpringFreq, 1f);   //This line may give issues in the future because of increasing the frequency.  Might not be necessary.
+
 				}
 				else {
 					ChangeSpringFrequency(retractSpringFreq, 100f);
