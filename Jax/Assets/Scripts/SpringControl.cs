@@ -3,6 +3,9 @@ using System.Collections;
 
 public class SpringControl : MonoBehaviour {
 
+	//  You should really only use this to make the speeds a litle clearer on some of the "change" functions
+	public const int INSTANTLY = 0;
+
 	//public const float EX_SPING_LOCKOUT_TIME = .1f;
 
 	public float regSpringLength;
@@ -33,15 +36,17 @@ public class SpringControl : MonoBehaviour {
 	private float footDist;
 	private float clampedCheckDist;
 
+	private int fixedJointRegPos = 1;
+	private int fixedJointUpPos = -1;
+
 	private Rigidbody2D footrb;
 	private Rigidbody2D rb;
 	private SpringJoint2D spring;
 	private FixedJoint2D fj;
-	//private SliderJoint2D sj;
-	//private float startSpringLength;
+
 	private Vector3 startSpringSpriteSize;
 	private float startDistance;
-	//private bool onGround;
+
 
 	// Use this for initialization
 	void Start () {
@@ -70,6 +75,11 @@ public class SpringControl : MonoBehaviour {
 				pLockoutTimer = pLockoutStartTime;
 			}
 		}
+
+		if (Input.GetKey("w") && retracted && fj.enabled)
+			ChangeFixedJointLength(fixedJointUpPos, INSTANTLY);
+		else
+			ChangeFixedJointLength(fixedJointRegPos, INSTANTLY);
 
 		springSprite.SetActive(!retracted && footDist > .5f);	
 
@@ -147,7 +157,7 @@ public class SpringControl : MonoBehaviour {
 	//Self-explanitory function.  Contract to 0 or regSpringLength if retracted or protracted and add drag to avoid crazy spinning.  Activate Fixed joint if the foot reaches all the way back to body.
 	public void ContractSpring() {
 		if (retracted) {
-			ChangeSpringLength(0, 0);
+			ChangeSpringLength(0, INSTANTLY);
 			if (clamped) {
 				footrb.drag = regDrag;
 				//We need to change frequency slowly if clamped because jumping to too high a frequency quickly can add too much velocity to the foot or body causing it to "phase" through obstacles
@@ -169,7 +179,7 @@ public class SpringControl : MonoBehaviour {
 		else {
 			spring.enabled = true;
 			fj.enabled = false;
-			ChangeSpringFrequency(regSpringFreq, 0);
+			ChangeSpringFrequency(regSpringFreq, INSTANTLY);
 			ChangeSpringLength(regSpringLength, 50);
 			footrb.drag = regDrag;
 		}
@@ -179,7 +189,7 @@ public class SpringControl : MonoBehaviour {
 	// See notes for Contract Spring Function
 	public void ExtendSpring() {
 		if (retracted) {
-			ChangeSpringLength(.7f, 0);
+			ChangeSpringLength(.7f, INSTANTLY);
 			if (clamped) {
 				footrb.drag = regDrag;
 				ChangeSpringFrequency(retractSpringFreq, 30f);
@@ -199,7 +209,7 @@ public class SpringControl : MonoBehaviour {
 			}
 		}
 		else {
-			ChangeSpringFrequency(regSpringFreq, 0);
+			ChangeSpringFrequency(regSpringFreq, INSTANTLY);
 			spring.enabled = true;
 			fj.enabled = false;
 			ChangeSpringLength(extSpringLength, 50);
