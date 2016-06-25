@@ -43,7 +43,7 @@ public class ActionSwitch : MonoBehaviour {
 			for (int i = 0; i < MAScripts.Length; i++) {
 				if (MAScripts[i])
 					MAScripts[i].scriptActive = active;
-				//if (MAScripts[i])
+				//if (SAScripts[i])
 				//SAScripts[i].scriptActive = active;
 			}
 			//Change the color
