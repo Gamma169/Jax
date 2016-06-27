@@ -6,7 +6,9 @@ public class SpringControl : MonoBehaviour {
 	//  You should really only use this to make the speeds a litle clearer on some of the "change" functions
 	public const int INSTANTLY = 0;
 
-	//public const float EX_SPING_LOCKOUT_TIME = .1f;
+	//public bool ableHop;
+	public bool ableProtract;
+	public bool ableExtend;
 
 	public float regSpringLength;
 	public float extSpringLength;
@@ -64,7 +66,7 @@ public class SpringControl : MonoBehaviour {
 	void Update() {
 
 		// This seems overly-complicated and redundant, but I think all these clauses are necessary.  Maybe I should come back to them to look it over, but so far it works.
-		if (Input.GetKeyDown(KeyCode.E) && !justProtracted && !justRetracted) {
+		if (Input.GetKeyDown(KeyCode.E) && !justProtracted && !justRetracted && ableProtract) {
 			retracted = !retracted;
 			if (retracted && !justRetracted) {
 				justRetracted = true;
@@ -180,7 +182,7 @@ public class SpringControl : MonoBehaviour {
 			spring.enabled = true;
 			fj.enabled = false;
 			ChangeSpringFrequency(regSpringFreq, INSTANTLY);
-			ChangeSpringLength(regSpringLength, 50);
+			ChangeSpringLength(regSpringLength, 100);
 			footrb.drag = regDrag;
 		}
 
@@ -208,7 +210,7 @@ public class SpringControl : MonoBehaviour {
 				}
 			}
 		}
-		else {
+		else if (ableExtend) {
 			ChangeSpringFrequency(regSpringFreq, INSTANTLY);
 			spring.enabled = true;
 			fj.enabled = false;

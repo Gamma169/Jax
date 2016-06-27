@@ -6,7 +6,14 @@ public class CameraControl : MonoBehaviour {
 	public Vector2 MinCameraBounds;
 	public Vector2 MaxCameraBounds;
 
+	[Tooltip("The difference in X position between the player and camera before the camera starts moving")]
+	public float playerRangeX = 4f;
+
+	[Tooltip("How far the player has to move away from the center of the camera before the camera follow's the player's speed exactly")]
+	public float playerMaxX = 4f;
+
 	public float increaseCameraSizeAtY;
+	//[Tooltip("This is a great tooltip")]
 	public float YSizeScalingFactor;
 
 	private Rigidbody2D rb;
@@ -30,12 +37,19 @@ public class CameraControl : MonoBehaviour {
 		}
 		else if (GlobalVariables.playerPositions.Length == 1) {
 			
-			if (GlobalVariables.playerPositions [0].x > this.transform.position.x + 4f && this.transform.position.x < MaxCameraBounds.x) {				
+			if ((GlobalVariables.playerPositions[0].x > this.transform.position.x + playerRangeX && this.transform.position.x < MaxCameraBounds.x) ||
+				(GlobalVariables.playerPositions[0].x < this.transform.position.x - playerRangeX && this.transform.position.x > MinCameraBounds.x)) {				
+				if (GlobalVariables.playerPositions[0].x - this.transform.position.x < playerMaxX)
+					rb.velocity = new Vector2(GlobalVariables.playerPositions[0].x - this.transform.position.x, 0);
+				else
+					rb.velocity = new Vector2(GlobalVariables.playerRBs[0].velocity.x, 0);
+
+			}
+			/*	
+			else if (GlobalVariables.playerPositions[0].x < this.transform.position.x - playerRangeX && this.transform.position.x > MinCameraBounds.x ) {
 				rb.velocity = new Vector2(GlobalVariables.playerPositions[0].x - this.transform.position.x, 0);
 			}
-			else if (GlobalVariables.playerPositions[0].x < this.transform.position.x - 4f && this.transform.position.x > MinCameraBounds.x ) {
-				rb.velocity = new Vector2(GlobalVariables.playerPositions[0].x - this.transform.position.x, 0);
-			}
+			*/
 			else {
 				rb.velocity = new Vector2(0,0);
 			}

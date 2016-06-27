@@ -12,6 +12,8 @@ public class GlobalVariables : MonoBehaviour {
 
 	public static bool invertLegControl;
 
+	public static Rigidbody2D[] playerRBs;
+
 	private GameObject[] players;
 
 	// Use this for initialization
@@ -21,8 +23,11 @@ public class GlobalVariables : MonoBehaviour {
 		players = GameObject.FindGameObjectsWithTag ("Player");
 		if (players.Length >= 1) {
 			playerPositions = new Vector3[players.Length];
+			playerRBs = new Rigidbody2D[players.Length];
 			for (int i = 0; i < playerPositions.Length; i++) {
-				playerPositions [i] = players [i].transform.position;
+				playerPositions[i] = players[i].transform.position;
+				playerRBs[i] = players[i].GetComponent<Rigidbody2D>();
+				//print(playerRBs[i]);
 			}
 		}
 		else {
