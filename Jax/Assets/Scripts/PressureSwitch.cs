@@ -46,6 +46,7 @@ public class PressureSwitch : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
 		active = SLJ.jointTranslation < .25f;
 		//Only do this if the state has changed since the last frame
 		if (stateChange != active) {

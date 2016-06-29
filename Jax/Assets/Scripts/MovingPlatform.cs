@@ -11,6 +11,7 @@ public class MovingPlatform : MonoBehaviour {
 
 	public bool loop;  //This will determine if the platform loops through its path back and forth, or just does it repediately
 
+	[Tooltip("-2 = Left.  -1 = Dowm.  0 = Still.  1 = Up.  2 = Right.")]
 	public int[] path;  // This array hold the path info for each platform
 	//-2 Means Left
 	//-1 Means Down

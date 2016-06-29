@@ -39,7 +39,7 @@ public class CameraControl : MonoBehaviour {
 			
 			if ((GlobalVariables.playerPositions[0].x > this.transform.position.x + playerRangeX && this.transform.position.x < MaxCameraBounds.x) ||
 				(GlobalVariables.playerPositions[0].x < this.transform.position.x - playerRangeX && this.transform.position.x > MinCameraBounds.x)) {				
-				if (GlobalVariables.playerPositions[0].x - this.transform.position.x < playerMaxX)
+				if (GlobalVariables.playerPositions[0].x - this.transform.position.x < playerMaxX || GlobalVariables.playerRBs[0].velocity.x < .2f)
 					rb.velocity = new Vector2(GlobalVariables.playerPositions[0].x - this.transform.position.x, 0);
 				else
 					rb.velocity = new Vector2(GlobalVariables.playerRBs[0].velocity.x, 0);
