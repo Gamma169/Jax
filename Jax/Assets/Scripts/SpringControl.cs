@@ -59,7 +59,7 @@ public class SpringControl : MonoBehaviour {
 		fj = GetComponent<FixedJoint2D>();
 		//startSpringLength = spring.distance;
 		startSpringSpriteSize = springSprite.transform.localScale;
-		startDistance = Vector3.Distance(footTransform.position, transform.position);
+		startDistance = extSpringLength - 1;  //Vector3.Distance(footTransform.position, transform.position);
 
 	}
 

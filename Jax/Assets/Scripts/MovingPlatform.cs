@@ -9,6 +9,8 @@ public class MovingPlatform : MonoBehaviour {
 	private const int UP = 1;
 	private const int RIGHT = 2;
 
+	[Tooltip("'Do Once' will override 'loop' if both are checked")]
+	public bool doOnce;  // If checked, will override loop and do its action only once
 	public bool loop;  //This will determine if the platform loops through its path back and forth, or just does it repediately
 
 	[Tooltip("-2 = Left.  -1 = Dowm.  0 = Still.  1 = Up.  2 = Right.")]
@@ -28,6 +30,7 @@ public class MovingPlatform : MonoBehaviour {
 	private int counter;
 	private bool setCounter;
 	private bool moveForward;
+	private bool done; //This is for the doOnce.  If it is done with its path, it won't loop again.
 
 	private Rigidbody2D rb;
 
@@ -50,6 +53,9 @@ public class MovingPlatform : MonoBehaviour {
 		setCounter = false;
 		onPathPart = 0;
 		moveForward = true;
+
+		if (doOnce)
+			loop = false;
 	}
 	
 	void FixedUpdate () {
@@ -111,7 +117,7 @@ public class MovingPlatform : MonoBehaviour {
 	}
 
 	public void FollowPath() {
-		if (pathLength > 0) {
+		if (pathLength > 0 && !done) {
 			if (path[onPathPart] == 0)
 				StayStill(distTime[onPathPart]);
 			else {
@@ -121,7 +127,11 @@ public class MovingPlatform : MonoBehaviour {
 					MoveDistance(-path[onPathPart], distTime[onPathPart], speeds[onPathPart]);
 				}
 			if (onPathPart >= pathLength || onPathPart < 0) {
-				if (loop) {
+				if (doOnce) {
+					done = true;
+					rb.velocity = Vector2.zero;
+				}
+				else if (loop) {
 					if (moveForward)
 						onPathPart--;
 					else

@@ -43,6 +43,12 @@ public class MoveBody : MonoBehaviour {
 
 	}
 
+	void OnCollisionStay2D(Collision2D other) {
+		if (other.gameObject.tag == "Ground")
+			onGround = true;
+	}
+
+
 	void OnCollisionEnter2D(Collision2D other) {
 		if (other.gameObject.tag == "Ground")
 			onGround = true;
@@ -52,4 +58,5 @@ public class MoveBody : MonoBehaviour {
 		if (other.gameObject.tag == "Ground")
 			onGround = false;
 	}
+
 }

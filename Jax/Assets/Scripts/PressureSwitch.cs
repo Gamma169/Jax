@@ -38,7 +38,7 @@ public class PressureSwitch : MonoBehaviour {
 		oldLimits = SLJ.limits;
 
 		newLimits.max = .18f;
-		newLimits.min = 0;
+		newLimits.min = .05f;
 
 		SR.color = deactColor;
 	}
