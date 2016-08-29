@@ -16,26 +16,24 @@ public class RepulsorField : MonoBehaviour {
 	//private Rigidbody2D otherRB;
 
 	private int forceStrength;
-	private bool lockout;
+	private bool playerInField;
 
 	// Use this for initialization
 	void Start () {
-		lockout = false;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		print(forceStrength);
+	void FixedUpdate () {
+		if (playerInField)
+			IncreaseForceStrength();
+		//print(forceStrength);
 	}
 
 	void OnTriggerStay2D(Collider2D other) {
 		if (other.gameObject.tag == "Player") {
-			
-			if (!lockout) {
-				forceStrength = 80;
-				//IncreaseForceStrength();
-				lockout = true;
-			}
+
+			playerInField = true;
+
 				
 			if (forceDirection == LEFT)
 				other.GetComponent<Rigidbody2D>().AddForce(forceStrength * Vector2.left);
@@ -48,19 +46,18 @@ public class RepulsorField : MonoBehaviour {
 		}
 	}
 
-	//void OnTriggerExit2D(Collider2D other) {
-		//if (other.gameObject.tag == "Player")
-	//		forceStrength = 0;
-	//		lockout = false;
-	//}
-
-	public IEnumerator IncreaseForceStrength() {
-		
-		while (forceStrength != 0 && forceStrength <= maxForceStrength) {
-			
-			forceStrength++;
-			yield return new WaitForSeconds(.05f);
+	void OnTriggerExit2D(Collider2D other) {
+		if (other.gameObject.tag == "Player") {
+			forceStrength = 0;
+			playerInField = false;
 		}
+	}
 
+	public void IncreaseForceStrength() {
+		
+		if (forceStrength <= maxForceStrength) {
+			//print("test");
+			forceStrength++;
+		}
 	}
 }

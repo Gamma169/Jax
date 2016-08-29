@@ -4,33 +4,36 @@ using UnityEngine.UI;
 
 public class TextFadeIn : MonoBehaviour {
 
-	public int startTimeWait = 60;
-	public int fadeInSpeed = 5;
+	public Text[] texts;
+	public int[] startTimeWaits;
+	public int[] fadeInSpeeds;
 
-
-	private Text text;
-	private int timeToFade;
-	private float textAlpha;
+	private int[] timeToFades;
+	private float[] textAlphas;
 	private bool playerInBounds;
 
 
 	// Use this for initialization
 	void Start () {
-		timeToFade = startTimeWait;
-		text = GetComponent<Text>();
+		timeToFades = new int[texts.Length];
+		textAlphas = new float[texts.Length];
+		for (int i=0; i<startTimeWaits.Length; i++)
+			timeToFades[i] = startTimeWaits[i];
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (playerInBounds) {
-			if (timeToFade > 0)
-				timeToFade--;
-			if (timeToFade <= 0)
-				FadeIn();
-		}
-		else {
-			timeToFade = startTimeWait;
-			FadeOut();
+		for (int i = 0; i < texts.Length; i++) {
+			if (playerInBounds) {
+				if (timeToFades[i] > 0)
+					timeToFades[i]--;
+				if (timeToFades[i] <= 0)
+					FadeIn(i);
+			}
+			else {
+				timeToFades[i] = startTimeWaits[i];
+				FadeOut(i);
+			}
 		}
 	}
 
@@ -46,33 +49,32 @@ public class TextFadeIn : MonoBehaviour {
 	}
 
 
-	void FadeIn() {
-		if (fadeInSpeed == 0) {
-			textAlpha = 1f;
+	void FadeIn(int i) {
+		if (fadeInSpeeds[i] == 0) {
+			textAlphas[i] = 1f;
 		}
 		else {
-			if (textAlpha < 1)
-				textAlpha += 0.01f * fadeInSpeed;
-			if (textAlpha > 1)
-				textAlpha = 1;
+			if (textAlphas[i] < 1)
+				textAlphas[i] += 0.01f * fadeInSpeeds[i];
+			if (textAlphas[i] > 1)
+				textAlphas[i] = 1;
 		}
-		Color c = new Color(1f, 1f, 1f, textAlpha);
-		text.color = c;
+		Color c = new Color(1f, 1f, 1f, textAlphas[i]);
+		texts[i].color = c;
 	}
 
-	void FadeOut() {
-		print("test");
-		if (fadeInSpeed == 0) {
-			textAlpha = 0f;
+	void FadeOut(int i) {
+		if (fadeInSpeeds[i] == 0) {
+			textAlphas[i] = 0f;
 		}
 		else {
-			if (textAlpha > 0)
-				textAlpha -= 0.01f * fadeInSpeed;
-			if (textAlpha < 0)
-				textAlpha = 0;
+			if (textAlphas[i] > 0)
+				textAlphas[i] -= 0.01f * fadeInSpeeds[i];
+			if (textAlphas[i] < 0)
+				textAlphas[i] = 0;
 		}
-		Color c = new Color(1f, 1f, 1f, textAlpha);
-		text.color = c;
+		Color c = new Color(1f, 1f, 1f, textAlphas[i]);
+		texts[i].color = c;
 	}
 
 }

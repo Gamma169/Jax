@@ -29,7 +29,7 @@ public class MoveBody : MonoBehaviour {
 			//if it's on the ground, then you can accelerate to the max spped
 			if (onGround) {
 				// Holding shift will make you move slower for higher jumps
-				if (Input.GetKey(KeyCode.LeftShift)) {
+				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
 					if (Input.GetKey("a") && rb.velocity.x >= -slowedSpeed)
 						rb.AddForce(Vector2.left * moveAcc, ForceMode2D.Force);
 					if (Input.GetKey("d") && rb.velocity.x <= slowedSpeed)

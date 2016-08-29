@@ -47,7 +47,7 @@ public class PressureSwitch : MonoBehaviour {
 	void Update () {
 
 
-		active = SLJ.jointTranslation < .25f;
+		active = SLJ.jointTranslation < 0.25f;
 		//Only do this if the state has changed since the last frame
 		if (stateChange != active) {
 			//Run through the arrays and change the states of the array elements
