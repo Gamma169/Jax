@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class TextFadeIn : MonoBehaviour {
 
+	public Color textColor;
 	public Text[] texts;
 	public int[] startTimeWaits;
 	public int[] fadeInSpeeds;
@@ -59,7 +60,7 @@ public class TextFadeIn : MonoBehaviour {
 			if (textAlphas[i] > 1)
 				textAlphas[i] = 1;
 		}
-		Color c = new Color(1f, 1f, 1f, textAlphas[i]);
+		Color c = new Color(textColor.r, textColor.g, textColor.b, textAlphas[i]);
 		texts[i].color = c;
 	}
 
@@ -73,7 +74,7 @@ public class TextFadeIn : MonoBehaviour {
 			if (textAlphas[i] < 0)
 				textAlphas[i] = 0;
 		}
-		Color c = new Color(1f, 1f, 1f, textAlphas[i]);
+		Color c = new Color(textColor.r, textColor.g, textColor.b, textAlphas[i]);
 		texts[i].color = c;
 	}
 
