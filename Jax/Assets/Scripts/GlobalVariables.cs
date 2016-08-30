@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class GlobalVariables : MonoBehaviour {
 	public const string BOUNDRY_LAYER = "Boundries";
 
-
 	public static Vector3[] playerPositions;
 
 	public static bool pControl;
@@ -55,13 +54,24 @@ public class GlobalVariables : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetKeyDown ("r"))
-			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
+		if (Input.GetKeyDown("r"))
+			ResetLevel();
 	
 		for (int i = 0; i < players.Length; i++) {
-			playerPositions [i] = players [i].transform.position;
+			playerPositions[i] = players[i].transform.position;
 		}
 	
 	
+	}
+
+
+	public static void DestroyPlayer(GameObject p) {
+
+	
+	
+	}
+
+	public static void ResetLevel() {
+		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
 	}
 }
