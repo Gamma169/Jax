@@ -13,6 +13,8 @@ public class GlobalVariables : MonoBehaviour {
 
 	public static Rigidbody2D[] playerRBs;
 
+	//public GameObject prefab;
+
 	private GameObject[] players;
 
 	// Use this for initialization
@@ -66,8 +68,9 @@ public class GlobalVariables : MonoBehaviour {
 
 
 	public static void DestroyPlayer(GameObject p) {
-
-	
+		print("Boom!");
+		Transform t = p.GetComponent<Transform>();
+		//Instantiate(prefab, t.position, Quaternion.identity);
 	
 	}
 

@@ -66,7 +66,8 @@ public class SpringControl : MonoBehaviour {
 	void Update() {
 
 		// This seems overly-complicated and redundant, but I think all these clauses are necessary.  Maybe I should come back to them to look it over, but so far it works.
-		if (Input.GetKeyDown(KeyCode.E) && !justProtracted && !justRetracted && ableProtract) {
+		// Added the IsKinematic requirement because I activate IsKinematic when the body is destroyed and don't want to be able to extend
+		if (Input.GetKeyDown(KeyCode.E) && !justProtracted && !justRetracted && ableProtract && !rb.isKinematic) {
 			retracted = !retracted;
 			if (retracted && !justRetracted) {
 				justRetracted = true;
@@ -78,7 +79,7 @@ public class SpringControl : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKey("w") && retracted && fj.enabled)
+		if (Input.GetKey("w") && retracted && fj.enabled && !rb.isKinematic)
 			ChangeFixedJointLength(fixedJointUpPos, INSTANTLY);
 		else
 			ChangeFixedJointLength(fixedJointRegPos, INSTANTLY);
@@ -112,7 +113,7 @@ public class SpringControl : MonoBehaviour {
 				((Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2f) + Mathf.Pow(rb.velocity.y, 2f)) < .05f &&			//The body needs not to be moving too fast
 				Mathf.Sqrt(Mathf.Pow(footrb.velocity.x, 2f) + Mathf.Pow(footrb.velocity.y, 2f)) <.05f) ||	//The foot needs not to be moving (too fast)
 				(rb.velocity.x - footrb.velocity.x < .1f && rb.velocity.y - footrb.velocity.y < .1f && 		// OR both the foot and body are moving at the same velocity.
-					footDist > .75f))																		// AND the foot distance is far from the body (this is so that at small distances, the foot is close and activates clamp briefly)
+					footDist > .75f))																		// AND the foot distance is far from the body (this is because that at small distances, the foot is close and activates clamp briefly)
 			)
 			clamped = true;
 		if (!retracted || footDist - spring.distance < .25f || clampedCheckDist - footDist > .01f)
@@ -138,7 +139,7 @@ public class SpringControl : MonoBehaviour {
 		if (GlobalVariables.pControl) {
 
 			// I only extend on the spacebar if I have not just protracted or just retracted otherwise I keep it in the contracted position.
-			if (Input.GetKey("space") && !justProtracted && !justRetracted) {
+			if (Input.GetKey("space") && !justProtracted && !justRetracted && !rb.isKinematic) {
 				ExtendSpring();
 			}
 			else {
