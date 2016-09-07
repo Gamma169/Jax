@@ -3,8 +3,8 @@ using System.Collections;
 
 public class MoveBody : MonoBehaviour {
 
-	public float maxSpeed = 4.5f;
-	public float slowedSpeed = 1.7f;
+	public float maxSpeed = 4f;
+	public float slowedSpeed = 2f;
 	public float moveAcc = 50f;
 	public float airAcc = 10f;
 
@@ -28,17 +28,17 @@ public class MoveBody : MonoBehaviour {
 		if (sc.retracted) {
 			//if it's on the ground, then you can accelerate to the max spped
 			if (onGround) {
-				// Holding shift will make you move slower for higher jumps
+				// Holding shift will make you move faster
 				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-					if (Input.GetKey("a") && rb.velocity.x >= -slowedSpeed)
-						rb.AddForce(Vector2.left * moveAcc, ForceMode2D.Force);
-					if (Input.GetKey("d") && rb.velocity.x <= slowedSpeed)
-						rb.AddForce(Vector2.right * moveAcc, ForceMode2D.Force);
-				}
-				else {
 					if (Input.GetKey("a") && rb.velocity.x >= -maxSpeed)
 						rb.AddForce(Vector2.left * moveAcc, ForceMode2D.Force);
 					if (Input.GetKey("d") && rb.velocity.x <= maxSpeed)
+						rb.AddForce(Vector2.right * moveAcc, ForceMode2D.Force);
+				}
+				else {
+					if (Input.GetKey("a") && rb.velocity.x >= -slowedSpeed)
+						rb.AddForce(Vector2.left * moveAcc, ForceMode2D.Force);
+					if (Input.GetKey("d") && rb.velocity.x <= slowedSpeed)
 						rb.AddForce(Vector2.right * moveAcc, ForceMode2D.Force);
 				}
 			} 
