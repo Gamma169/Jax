@@ -40,10 +40,10 @@ public class FootControl : MonoBehaviour {
 	 */
 		
 	void FixedUpdate () {
-
+		
 		alpha = Mathf.Atan ((footTransform.position.x - this.transform.position.x) / (footTransform.position.y - this.transform.position.y ) ) ;
 
-		if (GlobalVariables.pControl && !SC.retracted) {
+		if (GlobalVariables.pControl && !SC.retracted && !bodyRB.isKinematic) {
 			if (Input.GetKey("a")) {
 				RotateFoot (!GlobalVariables.invertLegControl);
 			}

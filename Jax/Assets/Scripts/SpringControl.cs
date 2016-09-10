@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpringControl : MonoBehaviour {
 
-	//  You should really only use this to make the speeds a litle clearer on some of the "change" functions
+	//  Use this to make the speeds a litle clearer on some of the "change" functions
 	public const int INSTANTLY = 0;
 
 	//public bool ableHop;
@@ -64,6 +64,9 @@ public class SpringControl : MonoBehaviour {
 	}
 
 	void Update() {
+
+		if (Input.GetKeyDown("p"))
+			GameObject.Destroy(gameObject);
 
 		// This seems overly-complicated and redundant, but I think all these clauses are necessary.  Maybe I should come back to them to look it over, but so far it works.
 		// Added the IsKinematic requirement because I activate IsKinematic when the body is destroyed and don't want to be able to extend

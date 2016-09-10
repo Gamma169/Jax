@@ -15,9 +15,9 @@ public class Hazard : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.tag == "Player") {
-			GlobalVariables.DestroyPlayer(other.gameObject);
+			other.GetComponent<PlayerInfo>().destroying = true;
+			//GlobalVariables.DestroyPlayer(other.gameObject);
 
-			other.GetComponent<Rigidbody2D>().isKinematic = true;
 		}
 			
 	
