@@ -59,9 +59,9 @@ public class ActionSwitch : MonoBehaviour {
 
 	// We only want to activate if the player is close enough
 	void OnTriggerStay2D(Collider2D other) {
-		if (!toggle && Input.GetKey(KeyCode.RightControl) && other.gameObject.tag == "Player")
+		if (!toggle && (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl)) && other.gameObject.tag == "Player")
 			active = true;
-		else if (Input.GetKeyDown(KeyCode.RightControl) && other.gameObject.tag == "Player") {
+		else if ((Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl)) && other.gameObject.tag == "Player") {
 			if (toggle)
 				active = !active;
 			else

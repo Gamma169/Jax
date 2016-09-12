@@ -16,6 +16,7 @@ public class GlobalVariables : MonoBehaviour {
 	public GameObject PE;
 
 	private GameObject[] players;
+	private PlayerInfo[] pis;
 	// We have an array of explosions corresponding to the players so if they hit hazards, the explosions will know which are associated with each player
 	private GameObject[] exps;
 	//This variable is to reset the level if all the players are destroyed
@@ -30,10 +31,12 @@ public class GlobalVariables : MonoBehaviour {
 		if (players.Length >= 1) {
 			playerPositions = new Vector3[players.Length];
 			playerRBs = new Rigidbody2D[players.Length];
+			pis = new PlayerInfo[players.Length];
 			for (int i = 0; i < playerPositions.Length; i++) {
 				playerPositions[i] = players[i].transform.position;
 				playerRBs[i] = players[i].GetComponent<Rigidbody2D>();
-				//print(playerRBs[i]);
+				pis[i] = players[i].GetComponent<PlayerInfo>();
+				//print(pis[i]);
 			}
 		}
 		else {
@@ -70,14 +73,14 @@ public class GlobalVariables : MonoBehaviour {
 		for (int i = 0; i < players.Length; i++) {
 			if (players[i] != null) {
 				noPlayers = false;
+
 				playerPositions[i] = players[i].transform.position;
-				PlayerInfo pi = players[i].GetComponent<PlayerInfo>();
 				// The next four lines deal with destroying a player if he comes in contact with a hazard
 				// When the player starts destroying, we create an explosion and add it to the corresponding place in the array
-				if (pi.destroying) 
+				if (pis[i].destroying && !pis[i].destroyed) 
 					exps[i] = CreateExplosion(players[i]);
 				// Once the explosion finishes exploding and destroys itself, this line will destroy the corresponding player with the finished explosion
-				if (exps[i] == null && pi.destroyed)
+				if (exps[i] == null && pis[i].destroyed)
 					GameObject.Destroy(players[i]);
 			}
 		}
