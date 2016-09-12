@@ -12,6 +12,8 @@ public class ActionSwitch : MonoBehaviour {
 
 	//I only have this so I don't have to constantly run a for loop.  I only want to run it once when the state has changed.
 	private bool stateChange;
+	// This is the player object has two colliders on it, so it screws with the OnTriggerStay function, calling it three times in quick succession
+	private bool lockout;
 
 	// I made this an array so the switch can activate a bunch of things instead of just one.
 	public GameObject[] activatees;
@@ -59,14 +61,24 @@ public class ActionSwitch : MonoBehaviour {
 
 	// We only want to activate if the player is close enough
 	void OnTriggerStay2D(Collider2D other) {
-		if (!toggle && (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl)) && other.gameObject.tag == "Player")
-			active = true;
-		else if ((Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl)) && other.gameObject.tag == "Player") {
-			if (toggle)
-				active = !active;
+		if ((Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl)) && other.gameObject.tag == "Player") {
+			if (toggle) {
+				if (!lockout) {
+					print("test");
+					lockout = true;
+					active = !active;
+					StartCoroutine("Unlock");
+				}
+			}
 			else
 				active = true;
 		}
-	
+	}
+
+
+	IEnumerator Unlock() {
+		//yield return new WaitForSeconds(0.08f);
+		yield return new WaitForSeconds(.05f);
+		lockout = false;
 	}
 }
