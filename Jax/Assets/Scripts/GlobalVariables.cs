@@ -13,6 +13,9 @@ public class GlobalVariables : MonoBehaviour {
 
 	public static Rigidbody2D[] playerRBs;
 
+	public static int spawnAtCheckpoint;
+	public static Checkpoint[] checkpoints;
+
 	public GameObject PE;
 
 	private GameObject[] players;
@@ -45,6 +48,13 @@ public class GlobalVariables : MonoBehaviour {
 		}
 		pControl = true;
 		invertLegControl = false;
+
+		GameObject[] cpts = GameObject.FindGameObjectsWithTag("Checkpoint");
+		checkpoints = new Checkpoint[cpts.Length];
+		for (int i = 0; i < cpts.Length; i++) {
+			checkpoints[i] = cpts[i].GetComponent<Checkpoint>();
+		}
+
 
 		/*
 		print (Mathf.Cos (0));

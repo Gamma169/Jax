@@ -18,6 +18,7 @@ public class LevelChanger : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.tag == "Player") {
 			int i = SceneManager.GetActiveScene().buildIndex;
+			GlobalVariables.spawnAtCheckpoint = 0;
 			SceneManager.LoadScene(i + 1);
 		}
 	}
