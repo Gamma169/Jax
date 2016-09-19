@@ -15,7 +15,10 @@ public class Hazard : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.tag == "Player") {
-			other.GetComponent<PlayerInfo>().destroying = true;
+			// We set destroying true here, and then destroyed when the explosion is created in the global variables object
+			PlayerInfo pInfo = other.GetComponent<PlayerInfo>();
+			if (!pInfo.destroyed)
+				pInfo.destroying = true;
 			//GlobalVariables.DestroyPlayer(other.gameObject);
 
 		}

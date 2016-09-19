@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerExplode : MonoBehaviour {
 
+	public bool basic = true;
+
 	public Color startCol;
 	public Color endCol;
 
@@ -18,7 +20,9 @@ public class PlayerExplode : MonoBehaviour {
 		tr = GetComponent<Transform>();
 		sr = GetComponent<SpriteRenderer>();
 		LERP = .1f;
-		StartCoroutine("Explode");
+		//This next line is for creating a basic explosion via the renderer.  When using an actual explosion animation, it is not necessary.
+		if (basic)
+			StartCoroutine("Explode");
 
 	}
 	
@@ -55,5 +59,11 @@ public class PlayerExplode : MonoBehaviour {
 		GameObject.Destroy(this.gameObject);
 
 	
+	}
+
+
+	// This method is for the animation version so that when the animation finishes, the explosion destroys itself
+	void finishedAnim() {
+		GameObject.Destroy(this.gameObject);
 	}
 }
