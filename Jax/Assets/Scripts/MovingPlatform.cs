@@ -20,14 +20,14 @@ public class MovingPlatform : MonoBehaviour {
 	//0 Means Stay Still
 	//1 Means Up
 	//2 Means Right
-	public int[] distTime;	//The distance it moves or the time it takes for it to stay still if it's in still spot of path
+	public float[] distTime;	//The distance it moves or the time it takes for it to stay still if it's in still spot of path
 	public float[] speeds;  	//The speed of velocity for each segment of path.  Speed is not taken into account if it's staying still.
 
 	/* NOTE:  All three arrays need to be the same length.  If not, the shortest array will be used as the length for the full path  */
 
 	private int pathLength;
 	private  int onPathPart;
-	private int counter;
+	private float counter;
 	private bool setCounter;
 	private bool moveForward;
 	private bool done; //This is for the doOnce.  If it is done with its path, it won't loop again.
@@ -70,9 +70,9 @@ public class MovingPlatform : MonoBehaviour {
 	*/
 
 	//NOTE that because distance is set on time, we need to keep this in fixedupdate method because that time is fixed and doesn't fluctuate
-	public void MoveDistance(int direction, int distance, float speed) {
+	public void MoveDistance(int direction, float distance, float speed) {
 		if (!setCounter) {
-			counter = (int) (distance * 100 / speed );
+			counter =  (distance * 100 / speed );
 			setCounter = true;
 		}
 		if (direction == LEFT) {
@@ -98,7 +98,7 @@ public class MovingPlatform : MonoBehaviour {
 		}
 	}
 
-	public void StayStill(int time) {
+	public void StayStill(float time) {
 		if (!setCounter) {
 			counter = time;
 			setCounter = true;
