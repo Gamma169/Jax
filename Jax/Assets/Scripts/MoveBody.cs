@@ -3,6 +3,9 @@ using System.Collections;
 
 public class MoveBody : MonoBehaviour {
 
+	// This is only to test out the motion on the new animation
+	public bool temp = false;
+
 	public float maxSpeed = 4f;
 	public float slowedSpeed = 2f;
 	public float moveAcc = 50f;
@@ -25,7 +28,7 @@ public class MoveBody : MonoBehaviour {
 	void FixedUpdate () {
 
 		//First check if it's retracted
-		if (sc.retracted) {
+		if (temp || sc.retracted) {
 			//if it's on the ground, then you can accelerate to the max spped
 			if (onGround) {
 				// Holding shift will make you move faster
