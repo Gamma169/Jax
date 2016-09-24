@@ -130,6 +130,7 @@ public class MovingPlatform : MonoBehaviour {
 				if (doOnce) {
 					done = true;
 					rb.velocity = Vector2.zero;
+					onPathPart = 0; // We only need this line if we're resetting the movement with a reset switch
 				}
 				else if (loop) {
 					if (moveForward)
@@ -143,6 +144,14 @@ public class MovingPlatform : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public void resetDone() {
+		done = false;
+	}
+
+	public bool isDone() {
+		return done;
 	}
 
 }

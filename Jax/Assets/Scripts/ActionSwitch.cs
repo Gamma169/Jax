@@ -6,6 +6,8 @@ public class ActionSwitch : MonoBehaviour {
 	public bool active;
 	//Do we want it to be toggleable or only one-time use
 	public bool toggle;
+	public bool reset; // If it's a reset switch, it will reset once all the moving platforms have finished their motion
+	// Note, will override toggle
 
 	public Color deactColor;
 	public Color activColor;
@@ -30,10 +32,14 @@ public class ActionSwitch : MonoBehaviour {
 		// Go through the array of activatable objects and get references to the activation scripts in those objects
 		for (int i=0; i<activatees.Length; i++) {
 			MAScripts[i] = activatees[i].GetComponent<MovementActivator>();
+			MAScripts[i].setResetter(reset);
 			//SAScripts[i] = activatees[i].GetComponent<SpringActivator>();
 		}
 		SR = GetComponent<SpriteRenderer>();
 		stateChange = active;
+
+		if (reset)
+			toggle = false;
 	}
 	
 	// Update is called once per frame
@@ -43,8 +49,13 @@ public class ActionSwitch : MonoBehaviour {
 		if (stateChange != active) {
 			//Run through the arrays and change the states of the array elements
 			for (int i = 0; i < MAScripts.Length; i++) {
-				if (MAScripts[i])
-					MAScripts[i].scriptActive = active;
+				if (MAScripts[i]) {
+					if (!active && reset) {
+						MAScripts[i].resetMP();
+					}
+					else 
+						MAScripts[i].scriptActive = active;
+				}
 				//if (SAScripts[i])
 				//SAScripts[i].scriptActive = active;
 			}
@@ -56,6 +67,16 @@ public class ActionSwitch : MonoBehaviour {
 			//Set the states to be the same
 			stateChange = active;
 		}
+		if (active && reset) {
+			bool allDone = true;
+			for (int i = 0; i < MAScripts.Length; i++) {
+				if (!MAScripts[i].isDone())
+					allDone = false;
+			}
+			if (allDone) {
+				active = false;
+			}
+		}
 			
 	}
 
@@ -64,7 +85,6 @@ public class ActionSwitch : MonoBehaviour {
 		if ((Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl)) && other.gameObject.tag == "Player") {
 			if (toggle) {
 				if (!lockout) {
-					print("test");
 					lockout = true;
 					active = !active;
 					StartCoroutine("Unlock");

@@ -8,6 +8,10 @@ public class MovementActivator : MonoBehaviour {
 
 	public bool scriptActive;
 
+	// These variables are for a reset switch
+	private bool resetter;
+	private bool done;
+
 	private MovingPlatform MPScript;
 	private SpriteRenderer SR;
 	private Rigidbody2D rb;
@@ -23,11 +27,33 @@ public class MovementActivator : MonoBehaviour {
 	void Update () {
 		MPScript.enabled = scriptActive;
 
+		if (resetter && !MPScript.doOnce)
+			MPScript.doOnce = true;
+		
+
 		if (scriptActive)
 			SR.color = activColor;
 		else {
 			SR.color = deactColor;
 			rb.velocity = Vector2.zero;
 		}
+
+		if (MPScript.enabled) {
+			done = MPScript.isDone();
+		}
 	}
+
+	public void setResetter(bool set) {
+		resetter = set;
+	}
+
+	public bool isDone() {
+		return done;
+	}
+
+	public void resetMP() {
+		MPScript.resetDone();
+		scriptActive = false;
+	}
+		
 }
