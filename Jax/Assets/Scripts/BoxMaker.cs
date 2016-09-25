@@ -5,34 +5,29 @@ public class BoxMaker : MonoBehaviour {
 
 	public GameObject boxPrefab;
 
-	public bool oneBox = true;
-
-	public Vector2 InstatiatePostion;
-
-	public Color activeCol;
-	public Color deactCol;
+	public int numBoxes = 1;
 
 	public bool active;
+
+	public bool randForceCreation;
+	public float forceStrength = 1;
+
 	private bool lockout;
 	private Vector3 InstPos;
-	private GameObject actualBox;
-
-	private SpriteRenderer SR;
+	private Queue boxes;
 
 	// Use this for initialization
 	void Start () {
-		InstPos = new Vector3(InstatiatePostion.x, InstatiatePostion.y, transform.position.z);
-		SR = GetComponent<SpriteRenderer>();
+		boxes = new Queue();
+		//boxes.Enqueue( (GameObject)Instantiate(boxPrefab, this.transform.position, Quaternion.identity));
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-		if (active)
-			SR.color = activeCol;
-		else {
-			SR.color = deactCol;
-			if (oneBox)
+
+		if (!active) {
+			if (numBoxes == 1 && boxes.Count >=  1)
 				DestroyBox();
 		}
 		lockout = false;
@@ -40,42 +35,32 @@ public class BoxMaker : MonoBehaviour {
 	}
 
 	public void CreateBox() {
-		if (actualBox && oneBox)
-			GameObject.Destroy(actualBox);
-		actualBox = (GameObject)Instantiate(boxPrefab, InstPos, Quaternion.identity);
+		if (boxes.Count >= numBoxes)
+			GameObject.Destroy((GameObject)boxes.Dequeue());
+		GameObject go = (GameObject)Instantiate(boxPrefab, this.transform.position, Quaternion.identity);
+		if (randForceCreation)
+			AddRandForce(go);
+		boxes.Enqueue(go);
 		
 	}
 
 	public void DestroyBox() {
-		if (actualBox)
-			GameObject.Destroy(actualBox);
+		if (boxes.Count >= 1)
+			GameObject.Destroy((GameObject)boxes.Dequeue());
 	}
-
-
-
-
-	void OnTriggerStay2D(Collider2D other) {
-		if (other.gameObject.tag == "Player") {
-			if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) {
-				if (!lockout) {
-					if (oneBox)
-						active = !active;
-					else {
-						active = true;
-						StartCoroutine("Unlock");
-					}
-					lockout = true;
-					if (active)
-						CreateBox();
-				}
-			}
-		}
-	}
-
+		
 	private IEnumerator Unlock() {
 		yield return new WaitForSeconds(0.25f);
-		active = false;
 		lockout = false;
+	}
+
+	public bool isLocked() {
+		return lockout;
+	}
+
+	public void AddRandForce(GameObject ob) {
+		Rigidbody2D rb = ob.GetComponent<Rigidbody2D>();
+		rb.AddForce(new Vector2(Random.Range(-forceStrength, forceStrength), Random.Range(0,forceStrength)), ForceMode2D.Impulse);
 	}
 
 }
