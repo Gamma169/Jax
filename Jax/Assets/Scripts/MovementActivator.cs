@@ -12,35 +12,49 @@ public class MovementActivator : MonoBehaviour {
 	private bool resetter;
 	private bool done;
 
-	private MovingPlatform MPScript;
 	private SpriteRenderer SR;
+	private MovingPlatform MPScript;
 	private Rigidbody2D rb;
+	private LERPBlock lb;
 
 	// Use this for initialization
 	void Start () {
 		MPScript = GetComponent<MovingPlatform>();
 		SR = GetComponent<SpriteRenderer>();
 		rb = GetComponent<Rigidbody2D>();
+		lb = GetComponent<LERPBlock>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		MPScript.enabled = scriptActive;
+		if (MPScript) {
+			MPScript.enabled = scriptActive;
 
-		if (resetter && !MPScript.doOnce)
-			MPScript.doOnce = true;
+			// Make sure that if the resetter is active, then the movement script is labeled as doOnce
+			if (resetter && !MPScript.doOnce)
+				MPScript.doOnce = true;
 		
 
-		if (scriptActive)
-			SR.color = activColor;
-		else {
-			SR.color = deactColor;
-			rb.velocity = Vector2.zero;
-		}
+			if (scriptActive)
+				SR.color = activColor;
+			else {
+				SR.color = deactColor;
+				rb.velocity = Vector2.zero;
+			}
 
-		if (MPScript.enabled) {
-			done = MPScript.isDone();
+			if (MPScript.enabled) {
+				done = MPScript.isDone();
+			}
 		}
+		if (lb) {
+			lb.active = scriptActive;
+
+			if (scriptActive)
+				SR.color = activColor;
+			else 
+				SR.color = deactColor;
+			
+		} 
 	}
 
 	public void setResetter(bool set) {

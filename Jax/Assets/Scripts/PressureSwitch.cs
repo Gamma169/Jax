@@ -5,6 +5,8 @@ public class PressureSwitch : MonoBehaviour {
 
 	public bool active;
 
+	public bool locking = true;
+
 	public Color deactColor;
 	public Color activColor;
 
@@ -60,7 +62,8 @@ public class PressureSwitch : MonoBehaviour {
 
 			if (active) {
 				SR.color = activColor;
-				SLJ.limits = newLimits;
+				if (locking)
+					SLJ.limits = newLimits;
 			}
 			else {
 				SR.color = deactColor;
