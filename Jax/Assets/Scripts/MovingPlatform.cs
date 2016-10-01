@@ -56,6 +56,8 @@ public class MovingPlatform : MonoBehaviour {
 
 		if (doOnce)
 			loop = false;
+
+		this.enabled = false;
 	}
 	
 	void FixedUpdate () {

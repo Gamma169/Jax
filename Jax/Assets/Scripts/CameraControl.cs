@@ -39,10 +39,15 @@ public class CameraControl : MonoBehaviour {
 			
 			if ((GlobalVariables.playerPositions[0].x > this.transform.position.x + playerRangeX && this.transform.position.x < MaxCameraBounds.x) ||
 				(GlobalVariables.playerPositions[0].x < this.transform.position.x - playerRangeX && this.transform.position.x > MinCameraBounds.x)) {				
-				if (GlobalVariables.playerPositions[0].x - this.transform.position.x < playerMaxX || GlobalVariables.playerRBs[0].velocity.x < .2f)
+				if (Mathf.Abs(GlobalVariables.playerPositions[0].x - this.transform.position.x) < playerMaxX /*|| GlobalVariables.playerRBs[0].velocity.x < .2f*/)
 					rb.velocity = new Vector2(GlobalVariables.playerPositions[0].x - this.transform.position.x, 0);
-				else
-					rb.velocity = new Vector2(GlobalVariables.playerRBs[0].velocity.x, 0);
+				else {
+					//TODO:  This works, but if the player spawns outside of the camera and starts moving, the camera will slow down and not center on the player until he stops moving again.  Need to adjust.
+					if (Mathf.Abs(GlobalVariables.playerRBs[0].velocity.x) < .1f)
+						rb.velocity = new Vector2(GlobalVariables.playerPositions[0].x - this.transform.position.x, 0);
+					else
+						rb.velocity = new Vector2(GlobalVariables.playerRBs[0].velocity.x, 0);
+				}
 
 			}
 			/*	
@@ -54,7 +59,7 @@ public class CameraControl : MonoBehaviour {
 				rb.velocity = new Vector2(0,0);
 			}
 
-
+			// TODO:  Change Camera Controls for Y to allow for verticle levels
 			if (GlobalVariables.playerPositions[0].y > increaseCameraSizeAtY) {
 				cam.orthographicSize = regSize + ((GlobalVariables.playerPositions[0].y - increaseCameraSizeAtY) / YSizeScalingFactor);
 				this.transform.position = new Vector3 (this.transform.position.x,  startY + ((GlobalVariables.playerPositions [0].y - increaseCameraSizeAtY) / YSizeScalingFactor), this.transform.position.z);
