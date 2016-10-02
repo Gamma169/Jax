@@ -12,6 +12,7 @@ public class SpringControl : MonoBehaviour {
 
 	public float regSpringLength;
 	public float extSpringLength;
+	public float retExtSpringLength = 0.7f;
 	public float regDampRatio = 0.3f;
 	public float lockoutDampRatio = 0.85f;
 	public float regSpringFreq = 2.9f;
@@ -38,8 +39,8 @@ public class SpringControl : MonoBehaviour {
 	private float footDist;
 	private float clampedCheckDist;
 
-	private int fixedJointRegPos = 1;
-	private int fixedJointUpPos = -1;
+	private float fixedJointRegPos = 1;
+	private float fixedJointUpPos = -1;
 
 	private Rigidbody2D footrb;
 	private Rigidbody2D rb;
@@ -60,6 +61,9 @@ public class SpringControl : MonoBehaviour {
 		//startSpringLength = spring.distance;
 		startSpringSpriteSize = springSprite.transform.localScale;
 		startDistance = extSpringLength - 1;  //Vector3.Distance(footTransform.position, transform.position);
+
+		fixedJointRegPos = fj.connectedAnchor.y;
+		fixedJointUpPos = -fixedJointRegPos + .2f;
 
 	}
 
@@ -112,11 +116,12 @@ public class SpringControl : MonoBehaviour {
 		footDist = Vector3.Distance(footTransform.position, transform.position);
 		if (retracted && 																				//Must be retracted to be clamped
 			clampedCheckDist - footDist < .01f && 														//The foot needs to not be moving in towards the body anymore
-			footDist - spring.distance > .25f && 														//The distance between the foot and body needs to be greater than what the spring wants to set it at (meaning there's something between the foot and the body stopping it from getting closer)
+			footDist - spring.distance > .40f && 														//The distance between the foot and body needs to be greater than what the spring wants to set it at (meaning there's something between the foot and the body stopping it from getting closer)
 				((Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2f) + Mathf.Pow(rb.velocity.y, 2f)) < .05f &&			//The body needs not to be moving too fast
 				Mathf.Sqrt(Mathf.Pow(footrb.velocity.x, 2f) + Mathf.Pow(footrb.velocity.y, 2f)) <.05f) ||	//The foot needs not to be moving (too fast)
 				(rb.velocity.x - footrb.velocity.x < .1f && rb.velocity.y - footrb.velocity.y < .1f && 		// OR both the foot and body are moving at the same velocity.
-					footDist > .75f))																		// AND the foot distance is far from the body (this is because that at small distances, the foot is close and activates clamp briefly)
+					footDist > .75f) &&																		// AND the foot distance is far from the body (this is because that at small distances, the foot is close and activates clamp briefly)
+				!fj.enabled)																			// And the jixed joint is not enabled
 			)
 			clamped = true;
 		if (!retracted || footDist - spring.distance < .25f || clampedCheckDist - footDist > .01f)
@@ -195,7 +200,7 @@ public class SpringControl : MonoBehaviour {
 	// See notes for Contract Spring Function
 	public void ExtendSpring() {
 		if (retracted) {
-			ChangeSpringLength(.7f, INSTANTLY);
+			ChangeSpringLength(retExtSpringLength, INSTANTLY);
 			if (clamped) {
 				footrb.drag = regDrag;
 				ChangeSpringFrequency(retractSpringFreq, 30f);

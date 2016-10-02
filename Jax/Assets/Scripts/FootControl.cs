@@ -40,8 +40,11 @@ public class FootControl : MonoBehaviour {
 	 */
 		
 	void FixedUpdate () {
-		
-		alpha = Mathf.Atan ((footTransform.position.x - this.transform.position.x) / (footTransform.position.y - this.transform.position.y ) ) ;
+		float yDiff = footTransform.position.y - this.transform.position.y;
+		if (yDiff == 0)
+			yDiff = 0.0001f;
+
+		alpha = Mathf.Atan ((footTransform.position.x - this.transform.position.x) / (yDiff ) ) ;
 
 		if (GlobalVariables.pControl && !SC.retracted && !bodyRB.isKinematic) {
 			if (Input.GetKey("a")) {
