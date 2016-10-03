@@ -12,6 +12,8 @@ public class MovingPlatform : MonoBehaviour {
 	[Tooltip("'Do Once' will override 'loop' if both are checked")]
 	public bool doOnce;  // If checked, will override loop and do its action only once
 	public bool loop;  //This will determine if the platform loops through its path back and forth, or just does it repediately
+	[Tooltip("Time (in 1/60 of a second) before the movement path starts")]
+	public int startWaitTime = 0;
 
 	[Tooltip("-2 = Left.  -1 = Dowm.  0 = Still.  1 = Up.  2 = Right.")]
 	public int[] path;  // This array hold the path info for each platform
@@ -27,6 +29,7 @@ public class MovingPlatform : MonoBehaviour {
 
 	private int pathLength;
 	private  int onPathPart;
+	private bool doneWaiting;		// This is what starts the script
 	private float counter;
 	private bool setCounter;
 	private bool moveForward;
@@ -57,12 +60,19 @@ public class MovingPlatform : MonoBehaviour {
 		if (doOnce)
 			loop = false;
 
+		doneWaiting = false;
+
 		this.enabled = false;
 	}
 	
 	void FixedUpdate () {
+		if (startWaitTime > 0)
+			startWaitTime--;
+		else
+			doneWaiting = true;
 
-		FollowPath();
+		if (doneWaiting)
+			FollowPath();
 	}
 
 	/*
@@ -154,6 +164,10 @@ public class MovingPlatform : MonoBehaviour {
 
 	public bool isDone() {
 		return done;
+	}
+
+	public int getOnPathpart() {
+		return onPathPart;
 	}
 
 }

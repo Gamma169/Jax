@@ -12,6 +12,7 @@ public class MoveBody : MonoBehaviour {
 	public float airAcc = 10f;
 
 	private bool onGround;
+	private float movingPlatformSpeed;
 
 	private SpringControl sc;
 	private Rigidbody2D rb;
@@ -33,15 +34,15 @@ public class MoveBody : MonoBehaviour {
 			if (onGround) {
 				// Holding shift will make you move faster
 				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-					if (Input.GetKey("a") && rb.velocity.x >= -maxSpeed)
+					if (Input.GetKey("a") && rb.velocity.x >= -maxSpeed + movingPlatformSpeed/2)		//If you're on a platform the platform is moving, you should increase the maximum speed at which the body can move in relation to the speed of the moving platform
 						rb.AddForce(Vector2.left * moveAcc, ForceMode2D.Force);
-					if (Input.GetKey("d") && rb.velocity.x <= maxSpeed)
+					if (Input.GetKey("d") && rb.velocity.x <= maxSpeed + movingPlatformSpeed/2)
 						rb.AddForce(Vector2.right * moveAcc, ForceMode2D.Force);
 				}
 				else {
-					if (Input.GetKey("a") && rb.velocity.x >= -slowedSpeed)
+					if (Input.GetKey("a") && rb.velocity.x >= -slowedSpeed + movingPlatformSpeed/2)
 						rb.AddForce(Vector2.left * moveAcc, ForceMode2D.Force);
-					if (Input.GetKey("d") && rb.velocity.x <= slowedSpeed)
+					if (Input.GetKey("d") && rb.velocity.x <= slowedSpeed + movingPlatformSpeed/2)
 						rb.AddForce(Vector2.right * moveAcc, ForceMode2D.Force);
 				}
 			} 
@@ -56,9 +57,26 @@ public class MoveBody : MonoBehaviour {
 
 	}
 
+	// This is fairly complicated because of the moving platform motion.  
+	// Basically, if the ground you're on is a moving platform, a bunch more checks need to be made to make sure your motion stays relative to the platform and not the world
 	void OnCollisionStay2D(Collision2D other) {
-		if (other.gameObject.tag == "Ground")
+		MovingPlatform mvp;
+		if (other.gameObject.tag == "Ground") {
 			onGround = true;
+			mvp = other.gameObject.GetComponent<MovingPlatform>();
+			if (mvp) {
+				if (mvp.isActiveAndEnabled && !mvp.isDone()) {
+					if (mvp.path[mvp.getOnPathpart()] == -2)
+						movingPlatformSpeed = -mvp.speeds[mvp.getOnPathpart()] / 2;
+					else if (mvp.path[mvp.getOnPathpart()] == 2)
+						movingPlatformSpeed = mvp.speeds[mvp.getOnPathpart()] / 2;
+					else
+						movingPlatformSpeed = 0;
+				}
+				else
+					movingPlatformSpeed = 0;
+			}
+		}
 	}
 
 
@@ -68,8 +86,10 @@ public class MoveBody : MonoBehaviour {
 	}
 
 	void OnCollisionExit2D(Collision2D other) {
-		if (other.gameObject.tag == "Ground")
+		if (other.gameObject.tag == "Ground") {
 			onGround = false;
+			movingPlatformSpeed = 0;
+		}
 	}
 
 }
