@@ -74,6 +74,7 @@ public class ActionSwitch : MonoBehaviour {
 					else 
 						MAScripts[i].scriptActive = active;
 				}
+
 				if (BMakerScripts[i]) {
 					BMakerScripts[i].active = active;
 					if (active)
@@ -83,6 +84,7 @@ public class ActionSwitch : MonoBehaviour {
 				//if (SAScripts[i])
 				//SAScripts[i].scriptActive = active;
 			}
+
 			//Change the color
 			if (active)
 				SR.color = activColor;

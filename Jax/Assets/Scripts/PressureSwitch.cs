@@ -37,6 +37,7 @@ public class PressureSwitch : MonoBehaviour {
 		// Go through the array of activatable objects and get references to the activation scripts in those objects
 		for (int i=0; i<activatees.Length; i++) {
 			MAScripts[i] = activatees[i].GetComponent<MovementActivator>();
+			MAScripts[i].setResetter(reset);
 			//SAScripts[i] = activatees[i].GetComponent<SpringActivator>();
 		}
 
@@ -46,7 +47,7 @@ public class PressureSwitch : MonoBehaviour {
 		oldLimits = SLJ.limits;
 
 		newLimits.max = .18f;
-		newLimits.min = .05f;
+		newLimits.min = .07f;
 
 		SR.color = deactColor;
 
@@ -58,8 +59,8 @@ public class PressureSwitch : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
-		if (resetTimer && resetCounter < 0) {
+		//print(resetTimer);
+		if (resetTimer && resetCounter > 0) {
 			resetCounter--;
 		}
 		else {
@@ -73,8 +74,14 @@ public class PressureSwitch : MonoBehaviour {
 		if (stateChange != active) {
 			//Run through the arrays and change the states of the array elements
 			for (int i = 0; i < MAScripts.Length; i++) {
-				if (MAScripts[i])
-					MAScripts[i].scriptActive = active;
+				if (MAScripts[i]) {
+					if (!active && reset) {
+						MAScripts[i].resetMP();
+						resetTimer = false;
+					}
+					else 
+						MAScripts[i].scriptActive = active;
+				}
 				//if (SAScripts[i])
 				//SAScripts[i].scriptActive = active;
 			}
@@ -92,7 +99,7 @@ public class PressureSwitch : MonoBehaviour {
 			stateChange = active;
 		}
 
-		// This is to reset for the movement scripts
+		// This is to reset the movement scripts
 		if (active && reset) {
 			bool allDone = true;
 			for (int i = 0; i < MAScripts.Length; i++) {

@@ -46,6 +46,7 @@ public class MovementActivator : MonoBehaviour {
 				done = MPScript.isDone();
 			}
 		}
+
 		if (lb) {
 			lb.active = scriptActive;
 
