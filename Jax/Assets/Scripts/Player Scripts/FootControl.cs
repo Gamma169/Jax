@@ -40,11 +40,19 @@ public class FootControl : MonoBehaviour {
 	 */
 		
 	void FixedUpdate () {
-		float yDiff = footTransform.position.y - this.transform.position.y;
+		
+			float yDiff = footTransform.position.y - this.transform.position.y;
+			//print(yDiff);
 		if (yDiff == 0)
 			yDiff = 0.0001f;
 
 		alpha = Mathf.Atan ((footTransform.position.x - this.transform.position.x) / (yDiff ) ) ;
+
+		/*  This was to see if I can change teh rotation of the foot in relatoin to the body.  Apparantly I cannot, so I'll have to think of a new way to change the orientation when I'm clamped.
+		Quaternion q = new Quaternion();
+		q.eulerAngles = new Vector3(0,0,-alpha * 180 / Mathf.PI);
+		footTransform.rotation = q;
+		*/
 
 		if (GlobalVariables.pControl && !SC.retracted && !bodyRB.isKinematic) {
 			if (Input.GetKey("a")) {
@@ -53,6 +61,8 @@ public class FootControl : MonoBehaviour {
 			if (Input.GetKey("d")) {
 				RotateFoot (GlobalVariables.invertLegControl);
 			}
+			//print("Foot Above:" + footAbove());
+			//print("Foot Right:" + footToTheRight());
 		} 
 		else {
 			AutoControl();
