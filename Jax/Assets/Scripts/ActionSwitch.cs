@@ -25,9 +25,9 @@ public class ActionSwitch : MonoBehaviour {
 	//		 I can't have a Box Maker that is able to do multiple boxes and movement scripts together.  But one box is fine.
 	public GameObject[] activatees;
 	private MovementActivator[] MAScripts;
+	private WallSpringActivator[] WallSpringScipts;
 	private BoxMaker[] BMakerScripts;
 	private bool BReset;
-//	private SpringActivator[] SAScripts		//Curently I don't have any spring activators, but when I do, I can come back to this script and just add them quickly.
 
 	private SpriteRenderer SR;
 
@@ -36,7 +36,7 @@ public class ActionSwitch : MonoBehaviour {
 	void Start () {
 		MAScripts = new MovementActivator[activatees.Length];
 		BMakerScripts = new BoxMaker[activatees.Length];
-		//SAScripts.Length = activatees.Length;
+		WallSpringScipts = new WallSpringActivator[activatees.Length];
 		// Go through the array of activatable objects and get references to the activation scripts in those objects
 		for (int i=0; i<activatees.Length; i++) {
 			MAScripts[i] = activatees[i].GetComponent<MovementActivator>();
@@ -51,6 +51,9 @@ public class ActionSwitch : MonoBehaviour {
 					BReset = true;
 				reset = false;  // This needs to be set so we don't run into issues resetting movement scripts that aren't there
 			}
+
+			WallSpringScipts[i] = activatees[i].GetComponent<WallSpringActivator>();
+
 			//SAScripts[i] = activatees[i].GetComponent<SpringActivator>();
 		}
 		SR = GetComponent<SpriteRenderer>();
@@ -81,8 +84,8 @@ public class ActionSwitch : MonoBehaviour {
 						BMakerScripts[i].CreateBox();
 				
 				}
-				//if (SAScripts[i])
-				//SAScripts[i].scriptActive = active;
+				if (WallSpringScipts[i])
+					WallSpringScipts[i].active = active;
 			}
 
 			//Change the color

@@ -16,6 +16,7 @@ public class PressureSwitch : MonoBehaviour {
 	// I made this an array so the switch can activate a bunch of things instead of just one.
 	public GameObject[] activatees;
 	private MovementActivator[] MAScripts;
+	private WallSpringActivator[] WallSpringScipts;
 
 	private SliderJoint2D SLJ;
 	private SpriteRenderer SR;
@@ -33,12 +34,14 @@ public class PressureSwitch : MonoBehaviour {
 	void Start () {
 
 		MAScripts = new MovementActivator[activatees.Length];
-		//SAScripts.Length = activatees.Length;
+		WallSpringScipts = new WallSpringActivator[activatees.Length];
+
 		// Go through the array of activatable objects and get references to the activation scripts in those objects
 		for (int i=0; i<activatees.Length; i++) {
 			MAScripts[i] = activatees[i].GetComponent<MovementActivator>();
-			MAScripts[i].setResetter(reset);
-			//SAScripts[i] = activatees[i].GetComponent<SpringActivator>();
+			if (MAScripts[i])
+				MAScripts[i].setResetter(reset);
+			WallSpringScipts[i] = activatees[i].GetComponent<WallSpringActivator>();
 		}
 
 		SLJ = GetComponent<SliderJoint2D>();
@@ -73,7 +76,8 @@ public class PressureSwitch : MonoBehaviour {
 		//Only do this if the state has changed since the last frame
 		if (stateChange != active) {
 			//Run through the arrays and change the states of the array elements
-			for (int i = 0; i < MAScripts.Length; i++) {
+			for (int i = 0; i < activatees.Length; i++) {
+
 				if (MAScripts[i]) {
 					if (!active && reset) {
 						MAScripts[i].resetMP();
@@ -82,10 +86,11 @@ public class PressureSwitch : MonoBehaviour {
 					else 
 						MAScripts[i].scriptActive = active;
 				}
-				//if (SAScripts[i])
-				//SAScripts[i].scriptActive = active;
+					
+				if (WallSpringScipts[i])
+					WallSpringScipts[i].active = active;
 			}
-			//print("test");
+
 			if (active) {
 				SR.color = activColor;
 				if (locking)

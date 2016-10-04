@@ -20,9 +20,12 @@ public class Hazard : MonoBehaviour {
 			if (!pInfo.destroyed)
 				pInfo.destroying = true;
 			//GlobalVariables.DestroyPlayer(other.gameObject);
-
 		}
 			
+		FreeBoxControl fbc = other.gameObject.GetComponent<FreeBoxControl>();
+		if (fbc) {
+			fbc.StartDestroy();
+		}
 	
 	
 	}
