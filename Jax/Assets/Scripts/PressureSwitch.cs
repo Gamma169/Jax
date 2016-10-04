@@ -27,8 +27,8 @@ public class PressureSwitch : MonoBehaviour {
 	//I only have this so I don't have to constantly run a for loop.  I only want to run it once when the state has changed.
 	private bool stateChange;
 
-	private bool resetTimer;
-	private int resetCounter;
+	private bool resetting;
+	//private int resetCounter;
 
 	// Use this for initialization
 	void Start () {
@@ -50,29 +50,21 @@ public class PressureSwitch : MonoBehaviour {
 		oldLimits = SLJ.limits;
 
 		newLimits.max = .18f;
-		newLimits.min = .07f;
+		newLimits.min = .05f;
 
 		SR.color = deactColor;
 
 		if (reset) {
 			locking = true;
-			resetCounter = 30;
 		}
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		//print(resetTimer);
-		if (resetTimer && resetCounter > 0) {
-			resetCounter--;
-		}
-		else {
-			resetTimer = false;
-			resetCounter = 30;
-		}
 
-		if ((SLJ.jointTranslation < 0.25f) && !resetTimer)
-			active = true;
+		active = SLJ.jointTranslation < 0.25f && !resetting;
+
+		
 		//Only do this if the state has changed since the last frame
 		if (stateChange != active) {
 			//Run through the arrays and change the states of the array elements
@@ -81,16 +73,16 @@ public class PressureSwitch : MonoBehaviour {
 				if (MAScripts[i]) {
 					if (!active && reset) {
 						MAScripts[i].resetMP();
-						resetTimer = false;
+						resetting = false;
 					}
 					else 
 						MAScripts[i].scriptActive = active;
-				}
-					
+				}	
 				if (WallSpringScipts[i])
 					WallSpringScipts[i].active = active;
 			}
 
+			// Change the Color and limits if active
 			if (active) {
 				SR.color = activColor;
 				if (locking)
@@ -108,18 +100,23 @@ public class PressureSwitch : MonoBehaviour {
 		if (active && reset) {
 			bool allDone = true;
 			for (int i = 0; i < MAScripts.Length; i++) {
-				if (MAScripts[i] && !MAScripts[i].isDone()) {
+				if (MAScripts[i] && !MAScripts[i].isDone() || WallSpringScipts[i]) {
 					allDone = false;
 				}
 			}
 			if (allDone) {
-				active = false;
-				resetTimer = true;
-				SLJ.limits = oldLimits;
+				StartCoroutine("Reset");
 			}
 		}
-
-
 	
+	}
+
+
+	IEnumerator Reset() {
+		active = false;
+		SLJ.limits = oldLimits;
+		resetting = true;
+		yield return new WaitForSeconds(0.5f);
+		resetting = false;
 	}
 }
