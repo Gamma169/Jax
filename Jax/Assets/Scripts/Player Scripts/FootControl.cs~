@@ -3,8 +3,8 @@ using System.Collections;
 
 public class FootControl : MonoBehaviour {
 
-    public float footRotatePower = 4f;
-    public float bodyRotatePower = 6f;
+    public float footRotatePower = 8f;
+    public float bodyRotatePower = 12f;
     public float mouseFootRotatePower = 4f;
     public float mouseBodyRotatePower = 6f;
 
@@ -18,7 +18,7 @@ public class FootControl : MonoBehaviour {
     private Transform footTransform;
     // andrew changes
     // toggle this to false to turn them off
-    private bool ANDREWCHANGES = false;
+    private bool ANDREWCHANGES = true;
     private Vector2 mousePosition; 
 
     // Use this for initialization
@@ -71,10 +71,10 @@ public class FootControl : MonoBehaviour {
             if (ANDREWCHANGES){
                 Vector2 currentMousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 if (mousePosition.x - currentMousePosition.x > 0){
-                    RotateFootWithMouse (!GlobalVariables.invertLegControl);
+                    RotateFoot(!GlobalVariables.invertLegControl);
                 }
                 if (mousePosition.x - currentMousePosition.x < 0){
-                    RotateFootWithMouse (GlobalVariables.invertLegControl);
+                    RotateFoot(GlobalVariables.invertLegControl);
                 }
                 mousePosition = currentMousePosition;
             }
