@@ -4,9 +4,9 @@ using System.Collections;
 public class FootControl : MonoBehaviour {
 
     public float footRotatePower = 4f;
-    public float bodyRotatePower = 6f;
-    public float mouseFootRotatePower = 4f;
-    public float mouseBodyRotatePower = 6f;
+    public float bodyRotatePower = 7f;
+    public float mouseFootRotatePower = 8f;
+    public float mouseBodyRotatePower = 14f;
 
     //public Collider2D footCol;
 
@@ -18,7 +18,7 @@ public class FootControl : MonoBehaviour {
     private Transform footTransform;
     // andrew changes
     // toggle this to false to turn them off
-    private bool ANDREWCHANGES = false;
+    private bool ANDREWCHANGES = true;
     private Vector2 mousePosition; 
 
     // Use this for initialization
@@ -136,6 +136,8 @@ public class FootControl : MonoBehaviour {
                 footRotatePowerAdded = -footRotatePowerAdded;
                 bodyRotatePowerAdded = -bodyRotatePowerAdded;
             }
+
+            Debug.Log("footPower is currently" + footRotatePowerAdded);
 
             if (!footAbove ())
                 footRB.AddForce (new Vector2 (-footRotatePowerAdded * Mathf.Cos (alpha), footRotatePowerAdded * Mathf.Sin (alpha)));

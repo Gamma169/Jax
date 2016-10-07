@@ -3,10 +3,10 @@ using System.Collections;
 
 public class FootControl : MonoBehaviour {
 
-    public float footRotatePower = 8f;
-    public float bodyRotatePower = 12f;
-    public float mouseFootRotatePower = 4f;
-    public float mouseBodyRotatePower = 6f;
+    public float footRotatePower = 4f;
+    public float bodyRotatePower = 7f;
+    public float mouseFootRotatePower = 8f;
+    public float mouseBodyRotatePower = 12f;
 
     //public Collider2D footCol;
 
@@ -71,10 +71,10 @@ public class FootControl : MonoBehaviour {
             if (ANDREWCHANGES){
                 Vector2 currentMousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 if (mousePosition.x - currentMousePosition.x > 0){
-                    RotateFoot(!GlobalVariables.invertLegControl);
+                    RotateFootWithMouse (!GlobalVariables.invertLegControl);
                 }
                 if (mousePosition.x - currentMousePosition.x < 0){
-                    RotateFoot(GlobalVariables.invertLegControl);
+                    RotateFootWithMouse (GlobalVariables.invertLegControl);
                 }
                 mousePosition = currentMousePosition;
             }
@@ -136,6 +136,8 @@ public class FootControl : MonoBehaviour {
                 footRotatePowerAdded = -footRotatePowerAdded;
                 bodyRotatePowerAdded = -bodyRotatePowerAdded;
             }
+
+            Debug.Log("footPower is currently" + footRotatePowerAdded);
 
             if (!footAbove ())
                 footRB.AddForce (new Vector2 (-footRotatePowerAdded * Mathf.Cos (alpha), footRotatePowerAdded * Mathf.Sin (alpha)));
