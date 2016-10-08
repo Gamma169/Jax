@@ -1,0 +1,297 @@
+fileFormatVersion: 2
+guid: a0db9c6528aaab74684f32b795278cf1
+timeCreated: 1475901325
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 02 - Full SandMetal Tile
+    21300002: 03 - Full Metal Tile
+    21300004: 01 - Full Sand Tile
+    21300006: 04 - Full Sand Both Ends
+    21300008: 05 - Full Sand Right End
+    21300010: 06 - Full Sand Left End
+    21300012: 07 - Half-Horiz Sand Tile
+    21300014: 08 - Half-Horiz Sand Both Ends
+    21300016: 09 - Half-Horiz Sand Right End
+    21300018: 10 - Half-Horiz Sand Left End
+    21300020: 11 - Half-Horiz SandMetal Tile
+    21300022: 12 - Half-Horiz Metal Tile
+    21300024: 13 - Half-Vert Sand Tile
+    21300026: 14 - Half-Vert Sand Left End
+    21300028: 15 - Half-Vert Sand Right End
+    21300030: 16 - Half-Vert SandMetal Tile
+    21300032: 17 - Half-Vert Metal Tile
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 50
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 02 - Full SandMetal Tile
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 976
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 03 - Full Metal Tile
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 976
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 01 - Full Sand Tile
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 672
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 04 - Full Sand Both Ends
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 673
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 05 - Full Sand Right End
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 671
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 06 - Full Sand Left End
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 672
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 07 - Half-Horiz Sand Tile
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 504
+        width: 256
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 08 - Half-Horiz Sand Both Ends
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 504
+        width: 256
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 09 - Half-Horiz Sand Right End
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 504
+        width: 256
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 10 - Half-Horiz Sand Left End
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 504
+        width: 256
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 11 - Half-Horiz SandMetal Tile
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 308
+        width: 256
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 12 - Half-Horiz Metal Tile
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 308
+        width: 256
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 13 - Half-Vert Sand Tile
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 16
+        width: 128
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 14 - Half-Vert Sand Left End
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 16
+        width: 128
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 15 - Half-Vert Sand Right End
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 16
+        width: 128
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 16 - Half-Vert SandMetal Tile
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 16
+        width: 128
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 17 - Half-Vert Metal Tile
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 17
+        width: 128
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -11,6 +11,8 @@ public class GlobalVariables : MonoBehaviour {
 
 	public static bool invertLegControl;
 
+	public static bool mouseControl;
+
 	public static Rigidbody2D[] playerRBs;
 
 	//  This int determines what checkpoint is active and so where to spawn when a player is killed.  If you're starting a level to begin with, it should be -1.
@@ -83,6 +85,9 @@ public class GlobalVariables : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.Escape) || noPlayers)
 			ResetLevel();
+
+		if (Input.GetKeyDown("m"))
+			mouseControl = !mouseControl;
 
 		//if we go through the array and never change this variable, that means all the players have been destroyed (and a new one hasn't been created due to a checkpoint) and the level will reset
 		noPlayers=true;
