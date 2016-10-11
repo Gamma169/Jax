@@ -1,0 +1,535 @@
+fileFormatVersion: 2
+guid: e0fc78e879bb7234c9988172395ff545
+timeCreated: 1475913179
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 01 - Full Sand Tile 1
+    21300002: 02 - Full Sand Tile 2
+    21300004: 03 - Full SandMetal Tile 1
+    21300006: 04 - Full SandMetal Tile 2
+    21300008: 05 - Full Metal Tile 1
+    21300010: 06 - Full Metal Tile 2
+    21300012: 07 - Full Dark Sand Tile
+    21300014: 08 - Full Dark Metal Tile
+    21300016: 09 - Full Sand Block Left
+    21300018: 10 - Full Sand Block Right
+    21300020: 11 - Full Dark Sand Block Left
+    21300022: 12 - Full Dark Sand Block Right
+    21300024: 13 - Full SandMetal Block
+    21300026: 14 - Full Metal Block 1
+    21300028: 15 - Full Metal Block 2
+    21300030: 16 - Half-Horiz Sand Tile 1
+    21300032: 17 - Half-Horiz Sand Tile 2
+    21300034: 18 - Half-Horiz Metal Tile 1
+    21300036: 19 - Half-Horiz Metal Tile 2
+    21300038: 20 - Half-Horiz Sand Block Left
+    21300040: 21 - Half-Horiz Sand Block Right
+    21300042: 22 - Half-Horiz Dark Sand Block Left
+    21300044: 23 - Half-Horiz Dark Sand Block Right
+    21300046: 24 - Half-Horiz SandMetal Block 1
+    21300048: 25 - Half-Horiz Metal Block 1
+    21300050: 26 - Half-Horiz Metal Block 2
+    21300052: 27 - Half-Vert Sand Tile 1
+    21300054: 28 - Half-Vert Sand Tile 2
+    21300056: 29 - Half-Vert Sand Block Left
+    21300058: 30 - Half-Vert Sand Block Right
+    21300060: 31 - Half-Vert Metal Block 1
+    21300062: 32 - Half-Vert Metal Block 2
+    21300064: 33 - Half-Vert Dark Sand Tile
+    21300066: 34 - Half-Vert Dark Metal Tile
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 50
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 01 - Full Sand Tile 1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 808
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 02 - Full Sand Tile 2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 808
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 03 - Full SandMetal Tile 1
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 808
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 04 - Full SandMetal Tile 2
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 808
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 05 - Full Metal Tile 1
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 808
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 06 - Full Metal Tile 2
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 808
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 07 - Full Dark Sand Tile
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 673
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 08 - Full Dark Metal Tile
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 672
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 09 - Full Sand Block Left
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 508
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 10 - Full Sand Block Right
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 508
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 11 - Full Dark Sand Block Left
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 508
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 12 - Full Dark Sand Block Right
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 508
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 13 - Full SandMetal Block
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 508
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 14 - Full Metal Block 1
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 508
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 15 - Full Metal Block 2
+      rect:
+        serializedVersion: 2
+        x: 1016
+        y: 509
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 16 - Half-Horiz Sand Tile 1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 404
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 17 - Half-Horiz Sand Tile 2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 404
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 18 - Half-Horiz Metal Tile 1
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 404
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 19 - Half-Horiz Metal Tile 2
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 404
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 20 - Half-Horiz Sand Block Left
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 312
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 21 - Half-Horiz Sand Block Right
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 312
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 22 - Half-Horiz Dark Sand Block Left
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 312
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 23 - Half-Horiz Dark Sand Block Right
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 312
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 24 - Half-Horiz SandMetal Block 1
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 312
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 25 - Half-Horiz Metal Block 1
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 312
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 26 - Half-Horiz Metal Block 2
+      rect:
+        serializedVersion: 2
+        x: 1016
+        y: 313
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 27 - Half-Vert Sand Tile 1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 152
+        width: 64
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 28 - Half-Vert Sand Tile 2
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 152
+        width: 64
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 29 - Half-Vert Sand Block Left
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 152
+        width: 64
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 30 - Half-Vert Sand Block Right
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 152
+        width: 64
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 31 - Half-Vert Metal Block 1
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 152
+        width: 64
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 32 - Half-Vert Metal Block 2
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 152
+        width: 64
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 33 - Half-Vert Dark Sand Tile
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 16
+        width: 64
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: 34 - Half-Vert Dark Metal Tile
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 16
+        width: 64
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
