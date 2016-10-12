@@ -13,6 +13,9 @@ public class PressureSwitch : MonoBehaviour {
 	public Color deactColor;
 	public Color activColor;
 
+	public bool useSprites;
+	public Sprite activeSprite;
+
 	// I made this an array so the switch can activate a bunch of things instead of just one.
 	public GameObject[] activatees;
 	private MovementActivator[] MAScripts;
@@ -20,6 +23,7 @@ public class PressureSwitch : MonoBehaviour {
 
 	private SliderJoint2D SLJ;
 	private SpriteRenderer SR;
+	private Sprite deactSprite;
 
 	private JointTranslationLimits2D oldLimits;
 	private JointTranslationLimits2D newLimits;
@@ -46,17 +50,24 @@ public class PressureSwitch : MonoBehaviour {
 
 		SLJ = GetComponent<SliderJoint2D>();
 		SR = GetComponent<SpriteRenderer>();
+		deactSprite = SR.sprite;
 
 		oldLimits = SLJ.limits;
 
 		newLimits.max = .18f;
 		newLimits.min = .05f;
 
-		SR.color = deactColor;
-
 		if (reset) {
 			locking = true;
 		}
+
+		if (useSprites && !activeSprite) {
+			useSprites = false;
+			Debug.Log("Warning: ActiveSprite not set for " + gameObject.name);
+		}
+		// This shouldn't just be an "else" statement because we update useSprites in the line above
+		if (!useSprites)
+			SR.color = deactColor;
 	}
 	
 	// Update is called once per frame
@@ -82,14 +93,22 @@ public class PressureSwitch : MonoBehaviour {
 					WallSpringScipts[i].active = active;
 			}
 
-			// Change the Color and limits if active
+			// Change the Sprites/Color and limits if active
 			if (active) {
-				SR.color = activColor;
+				if (useSprites)
+					SR.sprite = activeSprite;
+				else
+					SR.color = activColor;
+
 				if (locking)
 					SLJ.limits = newLimits;
 			}
 			else {
-				SR.color = deactColor;
+				if (useSprites)
+					SR.sprite = deactSprite;
+				else
+					SR.color = deactColor;
+
 				SLJ.limits = oldLimits;
 			}
 
