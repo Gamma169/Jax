@@ -17,6 +17,9 @@ public class FootControl : MonoBehaviour {
     private SpringControl SC;
     private Transform footTransform;
 
+    //andrew changes
+    public Transform mouseTarget;
+
     private Vector2 mousePosition; 
 
     // Use this for initialization
@@ -26,6 +29,9 @@ public class FootControl : MonoBehaviour {
         footRB = rbar[1];
         SC = GetComponent<SpringControl>();
         footTransform = GetComponentsInChildren<Transform>()[1];
+
+        mouseTarget = new GameObject().transform;
+        transform.parent = mouseTarget;
 
     }
 
@@ -72,7 +78,7 @@ public class FootControl : MonoBehaviour {
 				}
 				mousePosition = currentMousePosition;
 				*/
-				ControlFootWithMouse();
+                ControlFootWithMouse();
 			}
 			else {
 				if (Input.GetKey("a")) {
@@ -127,43 +133,18 @@ public class FootControl : MonoBehaviour {
         }
     }
 
-    /* andrew changes */
-    /*
-	public void RotateFootWithMouse(bool clockwise) {
-
-        float footRotatePowerAdded = mouseFootRotatePower;
-        float bodyRotatePowerAdded = mouseBodyRotatePower;
-
-        if (clockwise) {
-            footRotatePowerAdded = -footRotatePowerAdded;
-            bodyRotatePowerAdded = -bodyRotatePowerAdded;
-        }
-
-        Debug.Log("footPower is currently" + footRotatePowerAdded);
-
-        if (!footAbove ())
-            footRB.AddForce (new Vector2 (-footRotatePowerAdded * Mathf.Cos (alpha), footRotatePowerAdded * Mathf.Sin (alpha)));
-        else
-            footRB.AddForce (new Vector2 (footRotatePowerAdded * Mathf.Cos (alpha), -footRotatePowerAdded * Mathf.Sin (alpha)));
-
-        //  This is where I check if the foot is touching another object.  
-        //  I need to figure out a better way to do this.
-        //  Ideally, we only want it to touch the boundries layer
-        if (footRB.IsTouchingLayers(Physics2D.AllLayers)) {
-            if (footAbove ())
-                bodyRB.AddForce (new Vector2 (-bodyRotatePowerAdded * Mathf.Cos (alpha), bodyRotatePowerAdded * Mathf.Sin (alpha)));
-            else
-                bodyRB.AddForce (new Vector2 (bodyRotatePowerAdded * Mathf.Cos (alpha), -bodyRotatePowerAdded * Mathf.Sin (alpha)));
-        }
-    }
-	*/
 	// This function should make the foot point in the direction of the mouse.  It should be implemented with the RotateFoot method to avoid issues.  I've already updated the RotateFoot method to accomidate it so it doesn't rotate the body when on the ground.  
 	// See the TODO in the method for more info
 	public void ControlFootWithMouse() {
-	
-	
+        Vector3 v3Pos = Camera.main.WorldToScreenPoint (mouseTarget.position);
+        v3Pos = Input.mousePosition - v3Pos;
+        float angle = Mathf.Atan2 (v3Pos.y, v3Pos.x) * Mathf.Rad2Deg;
+
+        footTransform.position = mouseTarget.position;
+        footTransform.rotation = Quaternion.AngleAxis (angle, Vector3.forward);
+
+        Debug.Log(v3Pos);
 	}
-    /* end andrew changes */
 
     public bool footAbove() {
         if (footTransform.position.y - this.transform.position.y > 0)
