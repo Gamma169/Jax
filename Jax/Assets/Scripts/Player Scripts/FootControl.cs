@@ -18,7 +18,7 @@ public class FootControl : MonoBehaviour {
     private Transform footTransform;
 
     //andrew changes
-    public Transform mouseTarget;
+    //public Transform mouseTarget;
 
     private Vector2 mousePosition; 
 
@@ -30,8 +30,8 @@ public class FootControl : MonoBehaviour {
         SC = GetComponent<SpringControl>();
         footTransform = GetComponentsInChildren<Transform>()[1];
 
-        mouseTarget = new GameObject().transform;
-        transform.parent = mouseTarget;
+        //mouseTarget = new GameObject().transform;
+        //transform.parent = mouseTarget;
 
     }
 
@@ -136,7 +136,8 @@ public class FootControl : MonoBehaviour {
 	// This function should make the foot point in the direction of the mouse.  It should be implemented with the RotateFoot method to avoid issues.  I've already updated the RotateFoot method to accomidate it so it doesn't rotate the body when on the ground.  
 	// See the TODO in the method for more info
 	public void ControlFootWithMouse() {
-        Vector3 v3Pos = Camera.main.WorldToScreenPoint (mouseTarget.position);
+        /*
+		Vector3 v3Pos = Camera.main.WorldToScreenPoint (mouseTarget.position);
         v3Pos = Input.mousePosition - v3Pos;
         float angle = Mathf.Atan2 (v3Pos.y, v3Pos.x) * Mathf.Rad2Deg;
 
@@ -144,6 +145,7 @@ public class FootControl : MonoBehaviour {
         footTransform.rotation = Quaternion.AngleAxis (angle, Vector3.forward);
 
         Debug.Log(v3Pos);
+        */
 	}
 
     public bool footAbove() {

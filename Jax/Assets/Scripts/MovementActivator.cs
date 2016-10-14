@@ -20,6 +20,7 @@ public class MovementActivator : MonoBehaviour {
 	private MovingPlatform MPScript;
 	private Rigidbody2D rb;
 	private LERPBlock lb;
+	private RBLerpBlock rblb;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +29,7 @@ public class MovementActivator : MonoBehaviour {
 		deactSprite = SR.sprite;
 		rb = GetComponent<Rigidbody2D>();
 		lb = GetComponent<LERPBlock>();
+		rblb = GetComponent<RBLerpBlock>();
 
 		if (useSprite && !activeSprite) {
 			useSprite = false; 
@@ -57,6 +59,9 @@ public class MovementActivator : MonoBehaviour {
 			lb.active = scriptActive;
 		} 
 
+		if (rblb) {
+			rblb.active = scriptActive;
+		}
 
 		if (scriptActive) {
 			if (useSprite)
