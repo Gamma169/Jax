@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Stage 0 - Traversal/Area 1 - Repulsor Switch/Lev0-1-4.unity
+- path: Assets/Scenes/Sprite Balancing Playground.unity
   isLoaded: 1
   isActive: 1
