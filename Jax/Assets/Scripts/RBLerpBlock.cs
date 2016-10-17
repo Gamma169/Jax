@@ -32,7 +32,8 @@ public class RBLerpBlock : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
-		parentRB = transform.parent.GetComponent<Rigidbody2D>();
+		if (transform.parent)
+			parentRB = transform.parent.GetComponent<Rigidbody2D>();
 		startPos = new  Vector2(transform.localPosition.x, transform.localPosition.y);
 
 		if (!useSpeed) {
