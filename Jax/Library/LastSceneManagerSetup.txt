@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/SingleSpringPlayground.unity
+- path: Assets/Scenes/Stage 0 - Traversal/Area 0 - Intro/Lev0-0-2.unity
   isLoaded: 1
   isActive: 1
