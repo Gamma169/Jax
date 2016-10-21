@@ -28,6 +28,7 @@ public class ActionSwitch : MonoBehaviour {
 	private WallSpringActivator[] WallSpringScipts;
 	private BoxMaker[] BMakerScripts;
 	private bool BReset;
+	private bool WSReset;
 
 	private SpriteRenderer SR;
 
@@ -47,12 +48,16 @@ public class ActionSwitch : MonoBehaviour {
 			if (BMakerScripts[i] && BMakerScripts[i].numBoxes >= 1) {
 				if (BMakerScripts[i].numBoxes == 1)
 					toggle = true;   // Box makers that create only one box should always be toggle switches so that we don't get the box stuck and can just come back to the switch to destroy it
-				else
+				else {
+					reset = true;
 					BReset = true;
-				reset = false;  // This needs to be set so we don't run into issues resetting movement scripts that aren't there
+				}
 			}
 
 			WallSpringScipts[i] = activatees[i].GetComponent<WallSpringActivator>();
+			if (WallSpringScipts[i] && reset)
+				WSReset = true;
+				
 
 			//SAScripts[i] = activatees[i].GetComponent<SpringActivator>();
 		}
@@ -97,7 +102,7 @@ public class ActionSwitch : MonoBehaviour {
 			stateChange = active;
 		}
 		// This is to reset for the movement scripts
-		if (active && reset) {
+		if (active && reset && !WSReset && !BReset) {
 			bool allDone = true;
 			for (int i = 0; i < MAScripts.Length; i++) {
 				if (MAScripts[i] && !MAScripts[i].isDone())
@@ -110,7 +115,13 @@ public class ActionSwitch : MonoBehaviour {
 		// This is to reset for the box maker script if we have a box maker that can create more than one box
 		if (active && BReset && !lockout) {
 			lockout = true;
-			StartCoroutine("BoxReset");
+			StartCoroutine("ResetTimer");
+		}
+
+		// This is to create a timed switch on wall spring gates
+		if (active && WSReset && !lockout) {
+			lockout = true;
+			StartCoroutine("ResetTimer");
 		}
 			
 		// This needs to be here instead of the OnTriggerStay because it was giving issues not registerring things properly otherwise
@@ -149,7 +160,7 @@ public class ActionSwitch : MonoBehaviour {
 		lockout = false;
 	}
 
-	IEnumerator BoxReset() {
+	IEnumerator ResetTimer() {
 		yield return new WaitForSeconds(resetTime);
 		active = false;
 		lockout = false;
