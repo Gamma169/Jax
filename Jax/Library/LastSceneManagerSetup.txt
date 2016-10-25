@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/DoubleBlockLava.unity
+- path: Assets/Scenes/Sprite Balancing Playground.unity
   isLoaded: 1
   isActive: 1

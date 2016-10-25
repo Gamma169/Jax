@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ActionSwitch : MonoBehaviour {
 
+	public bool useSprite;
+
 	public bool active;
 	//Do we want it to be toggleable or only one-time use
 	public bool toggle;
@@ -12,6 +14,8 @@ public class ActionSwitch : MonoBehaviour {
 
 	public Color deactColor;
 	public Color activColor;
+	public Sprite activeSprite;
+	private Sprite deactSprite;
 
 	//I only have this so I don't have to constantly run a for loop.  I only want to run it once when the state has changed.
 	private bool stateChange;
@@ -62,6 +66,7 @@ public class ActionSwitch : MonoBehaviour {
 			//SAScripts[i] = activatees[i].GetComponent<SpringActivator>();
 		}
 		SR = GetComponent<SpriteRenderer>();
+		deactSprite = SR.sprite;
 		stateChange = active;
 
 		if (reset || BReset)
@@ -93,11 +98,19 @@ public class ActionSwitch : MonoBehaviour {
 					WallSpringScipts[i].active = active;
 			}
 
-			//Change the color
-			if (active)
-				SR.color = activColor;
-			else
-				SR.color = deactColor;
+			if (useSprite) {
+				if (active)
+					SR.sprite = activeSprite;
+				else
+					SR.sprite = deactSprite;
+			}
+			else {
+				//Change the color
+				if (active)
+					SR.color = activColor;
+				else
+					SR.color = deactColor;
+			}
 			//Set the states to be the same
 			stateChange = active;
 		}
