@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Sprite Balancing Playground.unity
+- path: Assets/Scenes/AA Prefinal Scenes/Area 0 - Desert/Des 2.unity
   isLoaded: 1
   isActive: 1

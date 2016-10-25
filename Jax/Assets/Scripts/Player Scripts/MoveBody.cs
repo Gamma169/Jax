@@ -34,13 +34,13 @@ public class MoveBody : MonoBehaviour {
 			if (onGround) {
 				// Holding shift will make you move faster
 				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-					if (Input.GetKey("a") && rb.velocity.x >= -maxSpeed + movingPlatformSpeed/2)		//If you're on a platform the platform is moving, you should increase the maximum speed at which the body can move in relation to the speed of the moving platform
+					if (Input.GetKey("a") && rb.velocity.x >= -maxSpeed - movingPlatformSpeed/2)		//If you're on a platform the platform is moving, you should increase the maximum speed at which the body can move in relation to the speed of the moving platform
 						rb.AddForce(Vector2.left * moveAcc, ForceMode2D.Force);
 					if (Input.GetKey("d") && rb.velocity.x <= maxSpeed + movingPlatformSpeed/2)
 						rb.AddForce(Vector2.right * moveAcc, ForceMode2D.Force);
 				}
 				else {
-					if (Input.GetKey("a") && rb.velocity.x >= -slowedSpeed + movingPlatformSpeed/2)
+					if (Input.GetKey("a") && rb.velocity.x >= -slowedSpeed - movingPlatformSpeed/2)
 						rb.AddForce(Vector2.left * moveAcc, ForceMode2D.Force);
 					if (Input.GetKey("d") && rb.velocity.x <= slowedSpeed + movingPlatformSpeed/2)
 						rb.AddForce(Vector2.right * moveAcc, ForceMode2D.Force);
@@ -48,10 +48,25 @@ public class MoveBody : MonoBehaviour {
 			} 
 			// if you're in the air, then it's slower
 			else {
-				if (Input.GetKey ("a") && rb.velocity.x >= -maxSpeed)
+				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
+					if (Input.GetKey("a") && rb.velocity.x >= -maxSpeed)
+						rb.AddForce(Vector2.left * airAcc, ForceMode2D.Force);
+					if (Input.GetKey("d") && rb.velocity.x <= maxSpeed)
+						rb.AddForce(Vector2.right * airAcc, ForceMode2D.Force);
+				}
+				else {
+					if (Input.GetKey("a") && rb.velocity.x >= -slowedSpeed-.1f)
+						rb.AddForce(Vector2.left * airAcc, ForceMode2D.Force);
+					if (Input.GetKey("d") && rb.velocity.x <= slowedSpeed+.1f)
+						rb.AddForce(Vector2.right * airAcc, ForceMode2D.Force);
+				}
+
+				/*
+				if (Input.GetKey ("a") && rb.velocity.x >= -slowedSpeed)
 					rb.AddForce (Vector2.left * airAcc, ForceMode2D.Force);
-				if (Input.GetKey ("d") && rb.velocity.x <= maxSpeed)
+				if (Input.GetKey ("d") && rb.velocity.x <= slowedSpeed)
 					rb.AddForce (Vector2.right * airAcc, ForceMode2D.Force);
+				*/
 			}
 		}
 
